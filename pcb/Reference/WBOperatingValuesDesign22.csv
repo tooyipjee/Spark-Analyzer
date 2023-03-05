@@ -1,0 +1,34 @@
+﻿Name,Value,Category,Description
+Vout,3.3 V,System Information,Operational Output Voltage
+IC Tolerance,14.4 mV,IC,IC Feedback Tolerance
+Cin IRMS,166.26 mA,Capacitor,Input capacitor RMS ripple current
+Cin Pd,122.96 µW,Capacitor,Input capacitor power dissipation
+Cout IRMS,114.74 mA,Capacitor,Output capacitor RMS ripple current
+Cout Pd,13.17 µW,Capacitor,Output capacitor power dissipation
+Duty Cycle,12.66%,System Information,Duty cycle
+Efficiency,80.1%,System Information,Steady state efficiency
+Frequency,786.7 kHz,System Information,Switching frequency
+IC Tj,53.47 °C,IC,IC junction temperature
+ICThetaJA,61.6 °C/W,IC,IC junction-to-ambient thermal resistance
+L Ipp,397.48 mA,Inductor,Peak-to-peak inductor ripple current
+L Pd,29.61 mW,Inductor,Inductor power dissipation
+IC Pd,381.04 mW,IC,IC power dissipation
+Pout,1.65 W,System Information,Total output power
+Iin Avg,73.6 mA,IC,Average input current
+IC Ipk,698.74 mA,IC,Peak switch current in IC
+Mode,CCM,System Information,Conduction Mode
+Vout p-p,8.01 mV,System Information,Peak-to-peak output ripple voltage
+M Vds Act,142.54 mV,Mosfet,Voltage drop across the MosFET
+M Irms,177.9 mA,Mosfet,MOSFET RMS current
+FootPrint,99 mm²,System Information,Total Foot Print Area of BOM components
+Vout Actual,3.31 V,System Information,Vout Actual calculated based on selected voltage divider resistors
+Vout Tolerance,3.36%,System Information,Vout Tolerance based on IC Tolerance (full load) and voltage divider resistors if applicable
+Vin,28 V,System Information,Vin operating point
+Iout,500 mA,System Information,Iout operating point
+Cin Pd,122.96 µW,Power,Input capacitor power dissipation
+Cout Pd,13.17 µW,Power,Output capacitor power dissipation
+L Pd,29.61 mW,Power,Inductor power dissipation
+IC Pd,381.04 mW,Power,IC power dissipation
+Total BOM,$0.88,System Information,Total BOM Cost
+Total Pd,410.77 mW,Power,Total Power Dissipation
+BOM Count,7 ,System Information,Total Design BOM count
