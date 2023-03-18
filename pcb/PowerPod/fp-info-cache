@@ -1,4 +1,4 @@
-21809810916161207
+21813166976768323
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -82768,6 +82768,13 @@ Schottky Diode
 2
 2
 SamacSys_Parts
+DMP3007SFG7
+PowerDI3333-8_ffw
+MOSFET (P-Channel)
+0
+9
+9
+SamacSys_Parts
 DOSIN8010031
 DOSIN-801-0031-2
 Connector
@@ -83597,6 +83604,13 @@ SamacSys_Parts
 SOT95P230X102-3N
 SOT-23_1
 Resistor Network
+0
+3
+3
+SamacSys_Parts
+SOT95P237X125-3N
+SOT-23-
+Transistor BJT NPN
 0
 3
 3
