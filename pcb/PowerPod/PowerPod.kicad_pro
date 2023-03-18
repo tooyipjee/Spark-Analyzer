@@ -66,7 +66,10 @@
         "hole_clearance|194300000|106280000|01db3a09-aeef-4ea0-914e-f8d133c7ff74|4d85a76a-65d1-4a14-af5c-62ab5d95c045",
         "hole_clearance|199700000|106280000|7d6fcbea-bd07-41c4-a603-f39e9aa13b40|c7b1c143-7197-429d-9a41-3c50eb163579",
         "hole_clearance|199700000|106280000|7d6fcbea-bd07-41c4-a603-f39e9aa13b40|cb34aa32-75ff-4d05-82e2-9c2f043f2fb6",
-        "hole_clearance|199900000|106270000|7d6fcbea-bd07-41c4-a603-f39e9aa13b40|4ef84464-3056-4285-b2a8-3bd275c66282"
+        "hole_clearance|199900000|106270000|7d6fcbea-bd07-41c4-a603-f39e9aa13b40|4ef84464-3056-4285-b2a8-3bd275c66282",
+        "lib_footprint_mismatch|197900000|129581250|45bd0141-fb2e-444a-adfe-3c9a803e1eec|00000000-0000-0000-0000-000000000000",
+        "lib_footprint_mismatch|207850000|128510625|073f1d9b-3029-4127-b629-8c81f807707b|00000000-0000-0000-0000-000000000000",
+        "lib_footprint_mismatch|221295000|120000000|c974f9f9-8fe6-4108-9997-caedb43c0ec0|00000000-0000-0000-0000-000000000000"
       ],
       "meta": {
         "version": 2
@@ -134,8 +137,8 @@
         "min_microvia_drill": 0.09999999999999999,
         "min_resolved_spokes": 2,
         "min_silk_clearance": 0.0,
-        "min_text_height": 0.7999999999999999,
-        "min_text_thickness": 0.08,
+        "min_text_height": 0.5,
+        "min_text_thickness": 0.06999999999999999,
         "min_through_hole_diameter": 0.19999999999999998,
         "min_track_width": 0.09,
         "min_via_annular_width": 0.13,
