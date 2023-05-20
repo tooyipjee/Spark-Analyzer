@@ -16,10 +16,13 @@ const struct tcpc_config_t tcpc_config[CONFIG_USB_PD_PORT_COUNT] = {
   {0, fusb302_I2C_SLAVE_ADDR, &fusb302_tcpm_drv},
 };
 // USB-C Specific - TCPM end 1
-int current = 0;
+int rawVoltage = 0;
 bool streamCurrent = false;
 bool outputEnable = false;
 int voltageSet = 0;
+float voltage = 0;
+int current = 0;
+int adcError = 0;
 void setup() {
   preferences.begin("my-app", false); 
 
@@ -60,8 +63,13 @@ void setup() {
 
 void loop() {  
   ArduinoOTA.handle();
-
-  current = analogRead(current_pin);
+  
+  voltage = ((analogRead(current_pin)-adcError)*1.0/4096.0)*3.3;
+  current = (voltage - 1.65)*10000;
+  if(outputEnable==0)
+  {
+    adcError = analogRead(current_pin)-2048;
+  }
 
   if (LOW == digitalRead(usb_pd_int_pin)) {
       tcpc_alert(0);
