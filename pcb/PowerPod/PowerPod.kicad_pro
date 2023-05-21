@@ -631,7 +631,7 @@
       "step": "PowerPod.step",
       "vrml": ""
     },
-    "page_layout_descr_file": "C:/Users/tooyi/OneDrive/KiCad/Title Template.kicad_wks"
+    "page_layout_descr_file": "$KICAD_ONEDRIVE/Title Template.kicad_wks"
   },
   "schematic": {
     "annotate_start_num": 0,
