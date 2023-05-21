@@ -150,17 +150,17 @@ void loop()
   if(RemoteXY.pushSwitch_1 == 1)
   {
     voltage = ((sampledVal-adcError)*1.0/4096.0)*3300;
-    Serial.println(voltage);
+    // Serial.println(voltage);
 
     current = (voltage - 1650)*10;
-    Serial.println(current);
+    // Serial.println(current);
 
     digitalWrite(debug_led_pin, HIGH);
   }
   else
   {
     adcError = sampledVal-2048;
-    Serial.println(adcError);
+    // Serial.println(adcError);
     digitalWrite(debug_led_pin,LOW);
 
   }
