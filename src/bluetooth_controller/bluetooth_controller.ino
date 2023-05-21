@@ -18,6 +18,7 @@
 #include "tcpm_driver.h"
 #include "usb_pd.h"
 #include <Preferences.h>
+#define FILTER_LENGTH 1000
 //////////////////////////////////////////////
 //        RemoteXY include library          //
 //////////////////////////////////////////////
@@ -35,9 +36,9 @@
 // RemoteXY configurate  
 #pragma pack(push, 1)
 uint8_t RemoteXY_CONF[] =   // 58 bytes
-  { 255,2,0,4,0,51,0,16,31,1,68,17,0,62,64,38,8,13,3,4,
-  15,16,10,35,13,26,10,48,37,25,15,15,13,26,31,79,78,0,31,79,
-  70,70,0,129,0,4,3,33,6,13,80,105,99,111,84,105,110,0 };
+  { 255,2,0,4,0,51,0,16,31,1,68,17,0,62,64,38,8,13,3,132,
+  13,47,35,10,13,26,10,48,23,22,15,15,13,26,31,79,78,0,31,79,
+  70,70,0,129,0,20,3,33,6,13,80,105,99,111,84,105,110,0 };
   
 // this structure defines all the variables and events of your control interface 
 struct {
@@ -53,7 +54,7 @@ struct {
   uint8_t connect_flag;  // =1 if wire connected, else =0 
 
 } RemoteXY;
-#pragma pack(pop);
+#pragma pack(pop)
 
 /////////////////////////////////////////////
 //           END RemoteXY include          //
@@ -65,8 +66,12 @@ int setVoltage;
 const int usb_pd_int_pin = 10;
 const int debug_led_pin  = 3;
 const int current_pin = 2;
-
-
+int current = 0;
+int voltage = 0;
+int filterBuf = 0;
+int adcError = 0;
+int loopCount = 0;
+int sampledVal = 0; 
 // USB-C Specific - TCPM start 1
 const struct tcpc_config_t tcpc_config[CONFIG_USB_PD_PORT_COUNT] = {
   {0, fusb302_I2C_SLAVE_ADDR, &fusb302_tcpm_drv},
@@ -126,31 +131,57 @@ void loop()
     preferences.end();
     ESP.restart();
   }
+  if(loopCount < FILTER_LENGTH)
+  {
+    filterBuf = filterBuf+analogRead(current_pin);
+    loopCount++;
+    
+  }
+  else
+  {
+    sampledVal = filterBuf/FILTER_LENGTH;
+
+    loopCount = 0;
+    filterBuf = 0;
+    Serial.print("Sampled: ");
+    Serial.println(sampledVal);
+  }
+
   if(RemoteXY.pushSwitch_1 == 1)
   {
+    voltage = ((sampledVal-adcError)*1.0/4096.0)*3300;
+    Serial.println(voltage);
+
+    current = (voltage - 1650)*10;
+    Serial.println(current);
+
     digitalWrite(debug_led_pin, HIGH);
   }
   else
   {
+    adcError = sampledVal-2048;
+    Serial.println(adcError);
     digitalWrite(debug_led_pin,LOW);
+
   }
 
   if (LOW == digitalRead(usb_pd_int_pin)) {
       tcpc_alert(0);
-      Serial.println("PD INT PIN TRIGGRED");
   }
 
   pd_run_state_machine(0);
-  RemoteXY.CurrentADCVal  = analogRead(current_pin);
+
+
+  RemoteXY.CurrentADCVal  = current;
 
   
-  Serial.print(pd_get_max_voltage());
-  Serial.print(", ");
-  Serial.println(RemoteXY.CurrentADCVal);
+  // Serial.print(pd_get_max_voltage());
+  // Serial.print(", ");
+  // Serial.println(RemoteXY.CurrentADCVal);
 
   // For some reason, a delay of 4 ms seems to be best
   // My guess is that spamming the I2C bus too fast causes problems
-  delay(4);
+  // delay(4);
 
 }
 
