@@ -19,6 +19,7 @@
 #include "usb_pd.h"
 #include <Preferences.h>
 #define FILTER_LENGTH 1000
+
 //////////////////////////////////////////////
 //        RemoteXY include library          //
 //////////////////////////////////////////////
@@ -30,15 +31,19 @@
 #include <RemoteXY.h>
 
 // RemoteXY connection settings 
-#define REMOTEXY_BLUETOOTH_NAME "PicoTin"
+#define REMOTEXY_BLUETOOTH_NAME "PowerPod"
 
 
 // RemoteXY configurate  
 #pragma pack(push, 1)
-uint8_t RemoteXY_CONF[] =   // 58 bytes
-  { 255,2,0,4,0,51,0,16,31,1,68,17,0,62,64,38,8,13,3,132,
-  13,47,35,10,13,26,10,48,23,22,15,15,13,26,31,79,78,0,31,79,
-  70,70,0,129,0,20,3,33,6,13,80,105,99,111,84,105,110,0 };
+uint8_t RemoteXY_CONF[] =   // 133 bytes
+  { 255,2,0,4,0,126,0,16,31,1,130,1,255,255,65,15,17,68,17,0,
+  62,64,38,8,13,3,4,3,16,10,35,13,26,10,48,42,25,15,15,13,
+  26,31,79,78,0,31,79,70,70,0,129,0,26,18,7,6,13,53,86,0,
+  129,0,26,26,7,6,13,57,86,0,129,0,23,43,10,6,13,50,48,86,
+  0,129,0,23,34,10,6,13,49,53,86,0,129,0,4,3,33,6,13,80,
+  111,119,101,114,80,111,100,0,129,0,5,56,54,6,13,67,117,114,114,101,
+  110,116,32,68,114,97,119,32,40,109,65,41,0 };
   
 // this structure defines all the variables and events of your control interface 
 struct {
@@ -59,6 +64,7 @@ struct {
 /////////////////////////////////////////////
 //           END RemoteXY include          //
 /////////////////////////////////////////////
+
 
 
 Preferences preferences;
