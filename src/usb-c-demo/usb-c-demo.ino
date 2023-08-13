@@ -30,7 +30,7 @@ void setup() {
 
 
   
-    // Configure and start the WiFi station
+  // Configure and start the WiFi station
   WiFi.mode(WIFI_STA);
 
   bool res;
