@@ -43,8 +43,10 @@ The sleek design of PowerPod ensures it can be effortlessly attached to any exis
 - **Output**: CC6904SO-10A | Current Sense: Hall Effect Current Sensor
 - **Output Enable**: DMP3017SFG-7 | FET
 - **Power**: TPS62175DQCT | 500mA 3.3V SMPS
-
-![PowerPod Image](./images/TopDown.jpg)
+  
+<p align="center">
+<img src="./images/TopDown.jpg" width="600" height="800"/>
+</p>
 
 ## Why Choose PowerPod?
 
