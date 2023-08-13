@@ -1,5 +1,7 @@
 # PowerPod: The Ultimate USB-C Power Delivery Analyzer & Power Supply
 
+![PowerPod Image](./images/PowerPod.jpg)
+
 **PowerPod** is an innovative and versatile ESP32-powered USB-C Power Delivery (UCPD) compatible device designed to enhance the development and debugging process for projects and prototypes. This compact and sleek power supply and analyzer can be seamlessly integrated inline with existing setups, providing invaluable insights and control over power delivery.
 
 With PowerPod, developers can easily monitor and manipulate voltage levels, log data, and analyze power consumption, all through a convenient and intuitive interface on their smartphones. The device is equipped with both WiFi and BLE connectivity, enabling wireless control and logging, eliminating the need for clunky physical buttons and allowing for remote operation from a distance.
@@ -40,6 +42,7 @@ The sleek design of PowerPod ensures it can be effortlessly attached to any exis
 - **Output Enable**: DMP3017SFG-7 | FET
 - **Power**: TPS62175DQCT | 500mA 3.3V SMPS
 
+![PowerPod Image](./images/TopDown.jpg)
 
 ## Why Choose PowerPod?
 
