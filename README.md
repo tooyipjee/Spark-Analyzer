@@ -66,6 +66,34 @@ The sleek design of PowerPod ensures it can be effortlessly attached to any exis
 
 PowerPod is not just a tool; it's a game-changer. Whether you're developing, debugging, or optimizing, PowerPod ensures you do it efficiently, safely,
 
+## Testing for Performance
+
+At the heart of PowerPod's design is a commitment to reliability and performance. To ensure that PowerPod stands up to real-world demands, we subjected it to testing under use conditions.
+
+### Max Current Test: 3A at 9V
+Under a load condition of 3A at 9V, PowerPod showcased its robust power delivery capabilities without any hitches. 
+
+<p align="center">
+<img src="./images/9V_3A.jpg" width="600" height="800"/>
+</p>
+
+### Max Voltage Test: 1.5A at 20V
+Even at its maximum voltage output of 20V with a 1.5A load, PowerPod continued to perform seamlessly, demonstrating its versatility and reliability.
+
+<p align="center">
+<img src="./images/20V_1.5A.jpg" width="600" height="800"/>
+</p>
+
+### Thermal Performance
+Safety and efficiency are paramount. We took a thermal image of the board under these testing conditions to ensure that all components remained within safe temperature limits. The results were impressive: the entire board stayed cool, with the warmest component being the ESP32 microcontroller, which only reached around 40°C.
+
+<p align="center">
+<img src="./images/Thermal.jpg" width="600" height="800"/>
+</p>
+
+These tests underscore PowerPod's commitment to delivering a product that is not only feature-rich but also reliable, safe, and efficient. With PowerPod, you're investing in a device that's been tried and tested to ensure optimal performance under all conditions.
+
+
 ## Package Contents:
 
 - 1x PowerPod
