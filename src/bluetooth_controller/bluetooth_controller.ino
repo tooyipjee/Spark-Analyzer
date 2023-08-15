@@ -90,7 +90,6 @@ void setup()
   RemoteXY.Voltage = setVoltage;
 
   Serial.begin(115200);
-  Serial.println(RemoteXY.Voltage);
 
   pinMode(usb_pd_int_pin, INPUT);
   pinMode(debug_led_pin, OUTPUT);
@@ -178,7 +177,7 @@ void loop()
   pd_run_state_machine(0);
 
 
-  RemoteXY.CurrentADCVal  = current;
+  RemoteXY.CurrentADCVal  = sampledVal;
 
   
   // Serial.print(pd_get_max_voltage());
