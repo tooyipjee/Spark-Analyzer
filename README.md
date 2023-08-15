@@ -74,14 +74,14 @@ At the heart of PowerPod's design is a commitment to reliability and performance
 Under a load condition of 3A at 9V, PowerPod showcased its robust power delivery capabilities without any hitches. 
 
 <p align="center">
-<img src="./images/9V_3A.jpg" width="600" height="800"/>
+<img src="./images/9V_3A.jpg" width="450" height="800"/>
 </p>
 
 ### Max Voltage Test: 1.5A at 20V
 Even at its maximum voltage output of 20V with a 1.5A load, PowerPod continued to perform seamlessly, demonstrating its versatility and reliability.
 
 <p align="center">
-<img src="./images/20V_1.5A.jpg" width="600" height="800"/>
+<img src="./images/20V_1.5A.jpg" width="450" height="800"/>
 </p>
 
 ### Thermal Performance
