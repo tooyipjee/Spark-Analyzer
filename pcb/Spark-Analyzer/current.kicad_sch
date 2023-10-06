@@ -955,7 +955,7 @@
     )
     (pin "1" (uuid 2a82acf9-7f95-49ee-ab44-a9c1b5ea0861))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/09249122-29b0-4dde-b4ca-260315792c2e"
           (reference "#PWR012") (unit 1)
         )
@@ -1015,7 +1015,7 @@
     (pin "8" (uuid c44cb0be-05e8-4b11-8eb9-efdbe1fdfa08))
     (pin "9" (uuid 4c42d10c-9e14-4170-b6c7-1a8136a83518))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "Q1") (unit 1)
         )
@@ -1053,7 +1053,7 @@
     (pin "1" (uuid 0da786d3-abec-4d7b-8370-23b5d54fb929))
     (pin "2" (uuid a0c2bbea-bdb3-46bd-800c-c7250edb290f))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/09249122-29b0-4dde-b4ca-260315792c2e"
           (reference "C8") (unit 1)
         )
@@ -1078,7 +1078,7 @@
     )
     (pin "1" (uuid a697938b-9ac9-4e08-acf2-3f052a4e773b))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/09249122-29b0-4dde-b4ca-260315792c2e"
           (reference "#PWR013") (unit 1)
         )
@@ -1103,7 +1103,7 @@
     )
     (pin "1" (uuid 7f68491b-2422-42de-bddc-5b3983c22ddd))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/dc0e84e0-adcd-432b-9bb1-644eba2790b5"
           (reference "TP5") (unit 1)
         )
@@ -1141,7 +1141,7 @@
     (pin "7" (uuid 9f1cc378-9d5a-4016-85ba-ab3913e3f6f8))
     (pin "8" (uuid 3f707755-f902-49c5-8d7a-db36b564f96a))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "IC3") (unit 1)
         )
@@ -1169,7 +1169,7 @@
     )
     (pin "1" (uuid d4a3e6d4-6d3f-45cb-9461-3d36e03b4c86))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "#PWR037") (unit 1)
         )
@@ -1201,7 +1201,7 @@
     (pin "1" (uuid 3c7dfbc0-54d6-4e2d-bdc2-9b70e966aa62))
     (pin "2" (uuid 77a3f4f1-f1f5-4b3f-8cde-51c63ccdc7a3))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/09249122-29b0-4dde-b4ca-260315792c2e"
           (reference "R8") (unit 1)
         )
@@ -1230,7 +1230,7 @@
     (pin "1" (uuid 9a571263-03f2-49b3-9fc5-c5e4cad8b45b))
     (pin "2" (uuid d9161d77-91fe-44d7-8f68-01bf9fb7b132))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "R19") (unit 1)
         )
@@ -1268,7 +1268,7 @@
     (pin "1" (uuid 87e6e6a9-a836-44f4-944e-23592a6e876e))
     (pin "2" (uuid 35b90197-d108-4e36-b592-11db39fffd4d))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/09249122-29b0-4dde-b4ca-260315792c2e"
           (reference "C7") (unit 1)
         )
@@ -1297,7 +1297,7 @@
     (pin "1" (uuid c32c0d38-f581-426e-b744-810200bed7d0))
     (pin "2" (uuid ba3012d2-3e20-46f4-b31e-ef4e441de488))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "R20") (unit 1)
         )
@@ -1325,7 +1325,7 @@
     )
     (pin "1" (uuid 13048f98-ae03-4758-b137-1d1f5de9fdbc))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/dc0e84e0-adcd-432b-9bb1-644eba2790b5"
           (reference "TP5") (unit 1)
         )
@@ -1354,7 +1354,7 @@
     (pin "1" (uuid e4cf2c04-a19d-497d-92f8-9e6c08335613))
     (pin "2" (uuid 6f7e945d-4e99-4672-8375-e00b1b22f50d))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "R21") (unit 1)
         )
@@ -1382,7 +1382,7 @@
     )
     (pin "1" (uuid e87df9ff-1f11-4c5e-afb5-a4a755a4577f))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/09249122-29b0-4dde-b4ca-260315792c2e"
           (reference "#PWR014") (unit 1)
         )
@@ -1436,7 +1436,7 @@
     (pin "2" (uuid 707ba684-2b05-499f-9199-a6a45fe10a52))
     (pin "3" (uuid 61996131-cf78-4f1d-a462-bb788982e1bd))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "Q2") (unit 1)
         )

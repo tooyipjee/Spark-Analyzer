@@ -5,9 +5,9 @@
   (paper "A3")
 
   (title_block
-    (title "PowerPod")
-    (date "2023-04-18")
-    (rev "A")
+    (title "Spark Analyzer")
+    (date "2023-10-06")
+    (rev "B")
   )
 
   (lib_symbols
@@ -582,7 +582,7 @@
     )
     (pin "1" (uuid e9b03fb9-2448-487a-abbb-ca7eadf6a7a3))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "#PWR04") (unit 1)
         )
@@ -607,7 +607,7 @@
     )
     (pin "1" (uuid 3b7eceed-eeb3-4cfa-b177-f4d7a6015f04))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "#PWR031") (unit 1)
         )
@@ -660,7 +660,7 @@
     (pin "1" (uuid 0f1d0ace-6028-43db-a53f-715d800198b3))
     (pin "2" (uuid 52c602ba-8e11-4b3c-b562-0dd73d0268cc))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "J3") (unit 1)
         )
@@ -684,7 +684,7 @@
       (effects (font (size 1.27 1.27)) hide)
     )
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "H4") (unit 1)
         )
@@ -709,7 +709,7 @@
     )
     (pin "1" (uuid 84fb0e2f-68fd-4b5e-acef-0f1d4dd299bf))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/dc0e84e0-adcd-432b-9bb1-644eba2790b5"
           (reference "TP5") (unit 1)
         )
@@ -736,7 +736,7 @@
       (effects (font (size 1.27 1.27)) hide)
     )
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "H1") (unit 1)
         )
@@ -761,7 +761,7 @@
     )
     (pin "1" (uuid 76a6fd03-1d26-4276-ab6a-035dd241069d))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "#PWR01") (unit 1)
         )
@@ -785,7 +785,7 @@
       (effects (font (size 1.27 1.27)) hide)
     )
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "H2") (unit 1)
         )
@@ -820,7 +820,7 @@
     (pin "1" (uuid a3698006-d4cc-406b-80c3-19a815903283))
     (pin "2" (uuid 337ba002-ce4a-4423-835c-a6e023d215a5))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/8b971fa9-4de7-4202-8255-0a278e8cf0e6"
           (reference "C21") (unit 1)
         )
@@ -858,7 +858,7 @@
     (pin "1" (uuid 27a7ac21-07aa-463e-83cb-d9e57be76453))
     (pin "2" (uuid 7e9a6f43-d057-4fd8-b56c-8c70bf903901))
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55/8b971fa9-4de7-4202-8255-0a278e8cf0e6"
           (reference "C21") (unit 1)
         )
@@ -885,7 +885,7 @@
       (effects (font (size 1.27 1.27)) hide)
     )
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "H3") (unit 1)
         )
@@ -920,7 +920,7 @@
       (uuid 66204f6b-6fe2-4bf8-8fff-8333972251b7)
     )
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55" (page "4"))
       )
     )
@@ -961,7 +961,7 @@
       (uuid e83dd1d2-d3f2-4282-a696-73f86d934469)
     )
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55" (page "2"))
       )
     )
@@ -986,7 +986,7 @@
       (uuid 45320791-fa78-4ad3-bc47-85eff8ee65af)
     )
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55" (page "5"))
       )
     )
@@ -1031,7 +1031,7 @@
       (uuid 68348524-ae5f-4a04-95d6-5c9d7b93ef81)
     )
     (instances
-      (project "PowerPod"
+      (project "Spark-Analyzer"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55" (page "3"))
       )
     )
