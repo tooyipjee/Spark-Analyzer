@@ -65,6 +65,27 @@ The sleek design of Spark Analyzer ensures it can be effortlessly attached to an
 - **Cost-effective**: With all its advanced features and capabilities, Spark Analyzer offers unparalleled value for money. Why invest in multiple devices when Spark Analyzer can do it all?
 
 Spark Analyzer is not just a tool; it's a game-changer. Whether you're developing, debugging, or optimizing, Spark Analyzer ensures you do it efficiently, safely,
+## Introducing the Spark Analyzer Mobile App (In Development)
+
+<p align="center">
+<img src="./images/App.jpg" width="400" height="800"/>
+</p>
+
+> **Note**: The Spark Analyzer Mobile App is currently in active development. The features described below are subject to change as we continue to improve the app.
+
+The Spark Analyzer Mobile App serves as the perfect companion to your Spark Analyzer device, offering an intuitive and feature-rich interface right on your smartphone. The app is designed to simplify the process of monitoring and controlling your power delivery, making it easier than ever to manage your projects.
+
+### Key Features:
+
+- **Voltage Selector**: The app comes with a user-friendly voltage selector that allows you to easily choose from the different voltage levels supported by the UCPD protocol. Whether you need 5V, 9V, 15V, or 20V, switching between these options is just a tap away.
+
+- **Output Toggle**: Need to turn the power output on or off? The app features a convenient toggle switch that gives you full control over the Spark Analyzer's output, making it simple to manage your device remotely.
+
+- **Current Draw Chart**: Keep an eye on your project's power consumption with the app's real-time current draw chart. This feature provides a graphical representation of the current being drawn, helping you to monitor and optimize your power usage effectively.
+
+### Future Developments:
+
+The Spark Analyzer Mobile App is continuously being improved, with several new features in the pipeline. Upcoming updates will include the ability to export logs for further analysis, set current limits to prevent overcurrent scenarios, and much more.
 
 ## Testing for Performance
 
