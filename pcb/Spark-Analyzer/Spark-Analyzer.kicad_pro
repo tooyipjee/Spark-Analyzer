@@ -628,7 +628,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "production/Rev A/PowerPod.step",
+      "step": "Spark-Analyzer.step",
       "vrml": ""
     },
     "page_layout_descr_file": "$KICAD_ONEDRIVE/Title Template.kicad_wks"
