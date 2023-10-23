@@ -141,7 +141,7 @@ Our designs have undergone rigorous testing and verification. We've already prod
 | **Open Source**       | Yes                | Yes          | Varies               |
 | **Programming Interface** | Integrated JTAG | Arduino IDE | N/A                  |
 | **Inline Integration**| Yes                | No           | No                   |
-| **Price**             | $49                | $28          | >$199                |
+| **Price**             | TBD                | $28          | >$199                |
 
 ## License
 
