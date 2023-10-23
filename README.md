@@ -58,8 +58,6 @@ The sleek design of Spark Analyzer ensures it can be effortlessly attached to an
 
 - **Safety First**: With features like software safety cut-off and accurate current measurement, Spark Analyzer ensures that your devices are protected from potential overcurrent scenarios.
 
-- **Open Source Flexibility**: Spark Analyzer believes in the power of community. All our designs and software are open source. Dive into our [GitHub repo](https://your-github-link-here.com) for detailed documentation.
-
 - **IO Breakout for Versatility**: Spark Analyzer's IO Breakout feature allows you to incorporate higher voltage into your projects, giving you more flexibility and expanding the range of projects you can work on.
 
 - **Cost-effective**: With all its advanced features and capabilities, Spark Analyzer offers unparalleled value for money. Why invest in multiple devices when Spark Analyzer can do it all?
