@@ -7,11 +7,16 @@
 #include "usb_pd.h"
 #include <Preferences.h>
 
-#define FILTER_LENGTH 1000
 #define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+// Filter variables
+#define MOVING_AVERAGE_LENGTH 10
+int adcSamples[MOVING_AVERAGE_LENGTH];
+int adcIndex = 0;
+int adcSum = 0;
 
 void sendDataPacket();
+int readFilteredADC(int pin);
 
 bool deviceConnected = false;
 unsigned long lastUpdateTime = 0;
@@ -96,6 +101,13 @@ class MyCallbacks: public BLECharacteristicCallbacks {
     }
 };
 void setup() {
+  // Initialize the filter buffer
+  for (int i = 0; i < MOVING_AVERAGE_LENGTH; i++) {
+    adcSamples[i] = analogRead(current_pin);
+    adcSum += adcSamples[i];
+    delay(1);  // Short delay to get different samples
+  }
+
   Serial.begin(115200);
   Serial.println("Starting BLE...");
 
@@ -141,6 +153,10 @@ pCharacteristic = pService->createCharacteristic(
   {
     pd_set_max_voltage(9000);  
   }
+  else if(setVoltage == 12)
+  {
+    pd_set_max_voltage(12000);  
+  }
   else if(setVoltage == 15)
   {
     pd_set_max_voltage(15000);  
@@ -160,15 +176,21 @@ void loop() {
   }
 
   pd_run_state_machine(0);
-    if(output == 1)
+  if(output == 1)
   {
     digitalWrite(debug_led_pin, HIGH);
   }
   else
   {
+    adcError = readFilteredADC(current_pin);
     digitalWrite(debug_led_pin,LOW);
   }
+  current = 5.6865*(readFilteredADC(current_pin)-adcError);
 
+  if(current>currentLimit && currentLimit != 0)
+  {
+    output = 0;
+  }
 }
 
 void sendDataPacket() {
@@ -176,9 +198,9 @@ void sendDataPacket() {
     DynamicJsonDocument doc(1024);
 
     doc["Voltage"] = setVoltage; // You can replace this with actual voltage data
-    doc["Current"] = analogRead(current_pin); // You can replace this with actual current data
+    doc["Current"] = current; // You can replace this with actual current data
     doc["OutputEN"] = output; // You can replace this with actual OutputEN status
-
+    doc["currentLimit"] = currentLimit;
     std::string jsonData;
     serializeJson(doc, jsonData);
     pCharacteristic->setValue(jsonData);
@@ -196,4 +218,12 @@ void pd_process_source_cap_callback(int port, int cnt, uint32_t *src_caps)
 
   Serial.print("Voltage set to ");
   Serial.println(PD_MAX_VOLTAGE_MV);
+}
+int readFilteredADC(int pin) {
+  int newSample = analogRead(pin);
+  adcSum -= adcSamples[adcIndex];  // Subtract the oldest sample
+  adcSamples[adcIndex] = newSample; // Update the oldest sample with the new sample
+  adcSum += newSample;  // Add the new sample to the sum
+  adcIndex = (adcIndex + 1) % MOVING_AVERAGE_LENGTH; // Increment the index (and wrap around if necessary)
+  return adcSum / MOVING_AVERAGE_LENGTH;  // Return the average
 }
