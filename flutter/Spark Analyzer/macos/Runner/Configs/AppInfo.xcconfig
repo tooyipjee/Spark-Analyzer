@@ -5,7 +5,7 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = ble_scan_demo
+PRODUCT_NAME = Spark Analyzer
 
 // The application's bundle identifier
 PRODUCT_BUNDLE_IDENTIFIER = com.example.bleScanDemo
