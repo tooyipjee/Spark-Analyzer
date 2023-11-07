@@ -89,7 +89,7 @@ void loop() {
       break;
     case 'C':
       voltageSet += 1;
-      if(voltageSet>=4) {voltageSet = 0;};
+      if(voltageSet>=5) {voltageSet = 0;};
 
       switch(voltageSet)
       {
@@ -101,11 +101,15 @@ void loop() {
           TelnetStream.println("Setting to 9V");
           preferences.putInt("Voltage", 9000);
           break;
-        case 2:
+        case 3:
+          TelnetStream.println("Setting to 12V");
+          preferences.putInt("Voltage", 12000);
+          break;
+        case 3:
           TelnetStream.println("Setting to 15V");
           preferences.putInt("Voltage", 15000);
           break;
-        case 3:
+        case 4:
           TelnetStream.println("Setting to 20V");
           preferences.putInt("Voltage", 20000);
           break;
