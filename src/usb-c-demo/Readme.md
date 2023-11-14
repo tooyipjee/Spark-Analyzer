@@ -1,4 +1,4 @@
-# PuTTY for Arduino Telnet Connection Guide
+# PuTTY for Spark Analyzer Telnet Connection Guide
 
 ## Downloading and Installing PuTTY
 
