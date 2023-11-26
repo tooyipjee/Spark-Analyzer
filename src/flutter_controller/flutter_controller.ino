@@ -17,6 +17,7 @@ int adcSum = 0;
 
 void sendDataPacket();
 int readFilteredADC(int pin);
+void updateUCPDVoltage(int newVoltage);
 
 bool deviceConnected = false;
 unsigned long lastUpdateTime = 0;
@@ -45,18 +46,14 @@ class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       deviceConnected = true;
       Serial.println("Device Connected");
-      
-      // Send data packet when device is connected
       sendDataPacket();
     };
 
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
       Serial.println("Device Disconnected");
-      ESP.restart();
     }
 };
-
 
 class MyCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
@@ -68,44 +65,40 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         }
         Serial.println();
 
-        // Assuming the received data is a JSON string
         DynamicJsonDocument doc(1024);
         DeserializationError error = deserializeJson(doc, value.c_str());
 
-        // Check if parsing was successful
         if (error) {
           Serial.print("deserializeJson() failed: ");
           Serial.println(error.c_str());
           return;
         }
 
-        // Extracting the values from the JSON document
-        output = doc["output"];         // Extracting boolean value for "output"
-        voltage = doc["voltage"];        // Extracting integer value for "voltage"
-        currentLimit = doc["currentLimit"]; // Extracting integer value for "currentLimit"
+        output = doc["output"];
+        voltage = doc["voltage"];
+        currentLimit = doc["currentLimit"];
 
-        // You can now use the variables output, voltage, and currentLimit in your code
         Serial.print("Output: "); Serial.println(output);
         Serial.print("Voltage: "); Serial.println(voltage);
         Serial.print("Current Limit: "); Serial.println(currentLimit);
 
-
-        if (voltage != setVoltage)
-        {
-          Serial.println("Voltage changed!");
+        if (voltage != setVoltage) {
+          Serial.println("Updating voltage setting...");
+          setVoltage = voltage;
           preferences.putInt("Voltage", voltage);
-          preferences.end();
+          updateUCPDVoltage(voltage); 
           ESP.restart();
+
         }
       }
     }
 };
+
 void setup() {
-  // Initialize the filter buffer
   for (int i = 0; i < MOVING_AVERAGE_LENGTH; i++) {
     adcSamples[i] = analogRead(current_pin);
     adcSum += adcSamples[i];
-    delay(1);  // Short delay to get different samples
+    delay(1); 
   }
 
   Serial.begin(115200);
@@ -115,13 +108,12 @@ void setup() {
   BLEServer *pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
   BLEService *pService = pServer->createService(SERVICE_UUID);
-pCharacteristic = pService->createCharacteristic(
+  pCharacteristic = pService->createCharacteristic(
                     CHARACTERISTIC_UUID,
                     BLECharacteristic::PROPERTY_READ |
                     BLECharacteristic::PROPERTY_WRITE |
                     BLECharacteristic::PROPERTY_NOTIFY
                   );
-  
   pCharacteristic->setCallbacks(new MyCallbacks());
   pService->start();
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
@@ -145,66 +137,46 @@ pCharacteristic = pService->createCharacteristic(
   pd_init(0);
   delay(50);
 
-  if(setVoltage == 5)
-  {
-    pd_set_max_voltage(5000);  
-  }
-  else if(setVoltage == 9)
-  {
-    pd_set_max_voltage(9000);  
-  }
-  else if(setVoltage == 12)
-  {
-    pd_set_max_voltage(12000);  
-  }
-  else if(setVoltage == 15)
-  {
-    pd_set_max_voltage(15000);  
-  }
-  else if(setVoltage == 20)
-  {
-    pd_set_max_voltage(20000);  
-  }
+  updateUCPDVoltage(setVoltage);
+  delay(50);
 }
 
-
 void loop() {
-  // Check if it's time to send an update
   if (millis() - lastUpdateTime >= updateInterval) {
     sendDataPacket();
     lastUpdateTime = millis();
   }
 
-  pd_run_state_machine(0);
-  if(output == 1)
-  {
+  if(output == 1) {
     digitalWrite(debug_led_pin, HIGH);
-  }
-  else
-  {
+  } else {
     adcError = readFilteredADC(current_pin);
-    digitalWrite(debug_led_pin,LOW);
+    digitalWrite(debug_led_pin, LOW);
   }
   current = 5.6865*(readFilteredADC(current_pin)-adcError);
 
-  if(current>currentLimit && currentLimit != 0)
-  {
+  if(current > currentLimit && currentLimit != 0) {
     output = 0;
   }
+  if (LOW == digitalRead(usb_pd_int_pin)) {
+    tcpc_alert(0);
+  }
+  pd_run_state_machine(0);
+  delay(4);
 }
 
 void sendDataPacket() {
   if (deviceConnected) {
     DynamicJsonDocument doc(1024);
 
-    doc["Voltage"] = setVoltage; // You can replace this with actual voltage data
-    doc["Current"] = current; // You can replace this with actual current data
-    doc["OutputEN"] = output; // You can replace this with actual OutputEN status
+    doc["Voltage"] = setVoltage;
+    doc["Current"] = current;
+    doc["OutputEN"] = output;
     doc["currentLimit"] = currentLimit;
     std::string jsonData;
     serializeJson(doc, jsonData);
     pCharacteristic->setValue(jsonData);
-    pCharacteristic->notify(true);  // Pass true to indicate confirmation is required
+    pCharacteristic->notify(true);
 
     Serial.println("Data Packet Sent:");
     serializeJsonPretty(doc, Serial);
@@ -212,18 +184,27 @@ void sendDataPacket() {
   }
 }
 
-void pd_process_source_cap_callback(int port, int cnt, uint32_t *src_caps)
-{
-  digitalWrite(debug_led_pin, HIGH);
-
-  Serial.print("Voltage set to ");
-  Serial.println(PD_MAX_VOLTAGE_MV);
+void updateUCPDVoltage(int newVoltage) {
+  
+  if(newVoltage == 5) {
+    pd_set_max_voltage(5000);  
+  } else if(newVoltage == 9) {
+    pd_set_max_voltage(9000);  
+  } else if(newVoltage == 12) {
+    pd_set_max_voltage(12000);  
+  } else if(newVoltage == 15) {
+    pd_set_max_voltage(15000);  
+  } else if(newVoltage == 20) {
+    pd_set_max_voltage(20000);  
+  }
+  tcpc_alert(0);
 }
+
 int readFilteredADC(int pin) {
   int newSample = analogRead(pin);
-  adcSum -= adcSamples[adcIndex];  // Subtract the oldest sample
-  adcSamples[adcIndex] = newSample; // Update the oldest sample with the new sample
-  adcSum += newSample;  // Add the new sample to the sum
-  adcIndex = (adcIndex + 1) % MOVING_AVERAGE_LENGTH; // Increment the index (and wrap around if necessary)
-  return adcSum / MOVING_AVERAGE_LENGTH;  // Return the average
+  adcSum -= adcSamples[adcIndex];
+  adcSamples[adcIndex] = newSample;
+  adcSum += newSample;
+  adcIndex = (adcIndex + 1) % MOVING_AVERAGE_LENGTH;
+  return adcSum / MOVING_AVERAGE_LENGTH;
 }
