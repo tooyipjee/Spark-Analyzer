@@ -10,6 +10,9 @@ With Spark Analyzer, developers can easily monitor and manipulate voltage levels
 
 The sleek design of Spark Analyzer ensures it can be effortlessly attached to any existing UCPD compatible wall wart or power source, without requiring additional stands or tables. Its compact form factor guarantees flexibility and convenience, making voltage control and data logging accessible and hassle-free.
 
+Intro video on YouTube here.
+[![Spark Analyzer](https://img.youtube.com/vi/IWUR4Ur0Dy4/0.jpg)](https://www.youtube.com/watch?v=IWUR4Ur0Dy4)
+
 ## Features:
 
 - **USB-C Power Delivery Compatibility**: Spark Analyzer is fully compatible with USB-C Power Delivery, ensuring compatibility with a myriad of devices and applications.
@@ -34,36 +37,67 @@ The sleek design of Spark Analyzer ensures it can be effortlessly attached to an
 
 ## Specifications:
 
-- **Microcontroller**: ESP32-C3
-- **WiFi**: 802.11b/g/n
-- **Bluetooth**: BLE 4.2
-- **FLASH**: 4MB
-- **Programming**: Integrated JTAG Controller
-- **UCPD**: FUSB302MPX
-- **Output**: CC6904SO-10A | Current Sense: Hall Effect Current Sensor
-- **Output Enable**: DMP3017SFG-7 | FET
-- **Power**: TPS62175DQCT | 500mA 3.3V SMPS
+### Power
+- **Negotiable Power Delivery:** Options of 5 VDC, 9 VDC, 12 VDC, 15 VDC, 20 VDC; max 5 A (100 W at 20 VDC).
+- **USB Type-C Port:** For power delivery and integrated JTAG programming.
+- **ON Semiconductor [FUSB302MPX](https://www.onsemi.com/pdf/datasheet/fusb302b-d.pdf):** Programmable USB Type-C control and USB PD communication.
+- **ESD Protection:** On D+/D-/CC1/CC2 pins.
+- **Texas Instruments [TPS62175DQCT](https://www.ti.com/product/TPS62175/part-details/TPS62175DQCT):** 3.3 VDC 0.5 A max output DC-DC Step-Down Converter.
+- **Power Output:** 3.5 mm, 2-position terminal block.
+
+### I/O Configuration
+- **GPIOs:** 4 GPIOs (I2C, UART, SPI compatible).
+- **Power Pins:** 1x 5 VDC and 1x GND.
+
+### Microcontroller
+- **Model:** [ESP32-C3FH4](https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf) with 40 MHz crystal.
+- **Wi-Fi:** 802.11b/g/n.
+- **Bluetooth:** BLE 4.2.
+- **Flash Memory:** 4 MB.
+
+### Interface
+- **3x LED Indicators**
+  - Power On
+  - Output Enable
+  - Programmable LED/Debug
+- **Buttons**
+  - Reset
+  - Programmable Button/Debug
+
+### Programming
+- **Integrated JTAG Controller:** For programming.
+- **USB-C:** Built-in USB JTAG programmer (ESP32-C3), compatible with Arduino. Select ESP32-C3 Dev Board.
+
+### Output
+- **Current Output:** [CC6904SO-10A](https://datasheet.lcsc.com/lcsc/2304140030_Cross-chip-CC6904SO-10A_C469389.pdf).
+- **Current Sensor:** Hall Effect Current Sensor.
+- **Output Enable:** [DMP3017SFG-7 FET](https://www.diodes.com/assets/Datasheets/products_inactive_data/DMP3017SFG.pdf).
   
 <p align="center">
-<img src="./images/TopDown.jpg" width="600" height="800"/>
+<img src="./images/TopDown.jpg" width="600" height="400"/>
 </p>
 
-## Why Choose Spark Analyzer?
+## Features
 
-- **Advanced Power Delivery**: Spark Analyzer is not just another power supply. It's a state-of-the-art USB-C Power Delivery solution tailored for developers, hobbyists, and professionals alike.
+- **USB-C Power Delivery Compatibility**: Fully compatible with USB-C Power Delivery, making it versatile for various devices and applications.
 
-- **Seamless Integration**: Its compact design and inline integration capability mean you can effortlessly incorporate Spark Analyzer into any setup, be it a professional lab or a hobbyist's workbench.
+- **Wireless Control and Logging**: With built-in Wi-Fi and BLE, you can control and log data wirelessly using your smartphone, eliminating the need for physical buttons and allowing remote operation.
 
-- **Wireless Convenience**: Gone are the days of being tethered by wires. With Spark Analyzer's WiFi and BLE capabilities, you can monitor and control your power delivery from anywhere in the room.
+- **Adjustable Voltage Output**: Precisely control voltage levels with options for 5 VDC, 9 VDC, 15 VDC, and 20 VDC, catering to your project's specific needs.
 
-- **Safety First**: With features like software safety cut-off and accurate current measurement, Spark Analyzer ensures that your devices are protected from potential overcurrent scenarios.
+- **Compact and Sleek Design**: Designed for inline integration, Spark Analyzer seamlessly attaches to UCPD compatible power sources without the need for additional equipment.
 
-- **IO Breakout for Versatility**: Spark Analyzer's IO Breakout feature allows you to incorporate higher voltage into your projects, giving you more flexibility and expanding the range of projects you can work on.
+- **IO Breakout**: Incorporate higher voltage into your projects with ease, thanks to Spark Analyzer's separate 3.3 VDC power domain.
 
-- **Cost-effective**: With all its advanced features and capabilities, Spark Analyzer offers unparalleled value for money. Why invest in multiple devices when Spark Analyzer can do it all?
+- **Power Analyzer Capability**: Measure your project's current draw with precision, enabling you to understand your power requirements better and optimize accordingly.
 
-Spark Analyzer is not just a tool; it's a game-changer. Whether you're developing, debugging, or optimizing, Spark Analyzer ensures you do it efficiently, safely,
-## Introducing the Spark Analyzer Mobile App (In Development)
+- **Software Safety Cut-off**: Ensures protection against excessive current draw by switching off the output FET during high current scenarios.
+
+- **Output FET**: Provides control over the high voltage output, giving you more command over your power delivery.
+
+- **Open Source Development**: Spark Analyzer is open source, allowing for customization and expansion of its capabilities. Dive into the [GitHub repo](https://github.com/tooyipjee/Spark-Analyzer/tree/master) for detailed documentation.
+
+## Spark Analyzer Mobile App 
 
 <p align="center">
 <img src="./images/App.jpg" width="400" height="800"/>
@@ -71,7 +105,13 @@ Spark Analyzer is not just a tool; it's a game-changer. Whether you're developin
 
 > **Note**: The Spark Analyzer Mobile App is currently in active development. The features described below are subject to change as we continue to improve the app.
 
-The Spark Analyzer Mobile App serves as the perfect companion to your Spark Analyzer device, offering an intuitive and feature-rich interface right on your smartphone. The app is designed to simplify the process of monitoring and controlling your power delivery, making it easier than ever to manage your projects.
+The Spark Analyzer Mobile App, currently done for [Android](https://play.google.com/store/apps/details?id=com.elektrothing.SparkAnalyzer&hl=en&gl=US) (iOS support is available via [RemoteXY](https://apps.apple.com/us/app/remotexy/id1168130280), is the perfect companion to your Spark Analyzer device. It simplifies monitoring and controlling power delivery with these key features:
+
+- **Voltage Selector**: Easily choose from different voltage levels (5 VDC, 9 VDC, 15 VDC, or 20 VDC) using a user-friendly selector.
+- **Output Toggle**: Turn the power output on or off conveniently with a toggle switch.
+- **Current Logging**: Save current draw as a .csv file.
+- **Current Limit**: Ability to set a software current trip as a safety feature.
+- **Read-time Display**: View current set point, current draw and output enable in real time on your phone. 
 
 ### Key Features:
 
