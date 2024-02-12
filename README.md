@@ -10,7 +10,6 @@ With Spark Analyzer, developers can easily monitor and manipulate voltage levels
 
 The sleek design of Spark Analyzer ensures it can be effortlessly attached to any existing UCPD compatible wall wart or power source, without requiring additional stands or tables. Its compact form factor guarantees flexibility and convenience, making voltage control and data logging accessible and hassle-free.
 
-Intro video on YouTube here.
 [![Spark Analyzer](https://img.youtube.com/vi/IWUR4Ur0Dy4/0.jpg)](https://www.youtube.com/watch?v=IWUR4Ur0Dy4)
 
 ## Features:
