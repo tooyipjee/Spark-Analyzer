@@ -163,22 +163,24 @@ Our designs have undergone rigorous testing and verification. We've already prod
 
 ## Comparison: Spark Analyzer vs PD Micro vs Lab Power Supply
 
-| Feature/Specification | **Spark Analyzer** | **PD Micro** | **Lab Power Supply** |
-|-----------------------|--------------------|--------------|----------------------|
-| **Microcontroller**   | ESP32-C3           | ATmega32U4   | N/A                  |
-| **WiFi**              | 802.11b/g/n        | No           | No                   |
-| **Bluetooth**         | BLE 4.2            | No           | No                   |
-| **FLASH Memory**      | 4MB                | N/A          | N/A                  |
-| **USB-C PD**          | Yes                | Yes          | No                   |
-| **Output Control**    | Adjustable         | Adjustable   | Fully Adjustable     |
-| **Wireless Control**  | Yes                | No           | No                   |
-| **Smartphone App**    | Yes                | No           | No                   |
-| **Current Measurement**| Accurate          | Basic        | Highly Accurate      |
-| **Design**            | Compact & Sleek    | Compact      | Bulky                |
-| **Open Source**       | Yes                | Yes          | Varies               |
-| **Programming Interface** | Integrated JTAG | Arduino IDE | N/A                  |
-| **Inline Integration**| Yes                | No           | No                   |
-| **Price**             | TBD                | $28          | >$199                |
+|    | Spark Analyzer               | [PD Micro](https://www.mouser.co.uk/ProductDetail/Crowd-Supply/CS-PDMICRO-01?qs=TuK3vfAjtkXixx0TeJooNQ%3D%3D)               | [TinyPICO V3](https://www.conrad.com/en/p/joy-it-com-zy12pdn-converter-1-pc-s-2475888.html?WT.srch=1&vat=true&utm_source=google&utm_medium=organic&utm_campaign=shopping&srsltid=AfmBOooPUzUXbytdxZNQd-7snqUbn7jtgCwQktmcI8B5WYmZAfE5yNWl4q0#productDownloads)          | [Joy-IT COM ZY12PDN](https://shop.pimoroni.com/products/tinypico-v2?variant=39285089534035)   |
+|------------------------------|------------------------------|------------------------|----------------------|----------------------|
+| **Microcontroller**          | ESP32-C3                     | ATmega32U4             | ESP32-PICO-D4        | Not Applicable       |
+| **WiFi Connectivity**        | Available (802.11b/g/n)      | Not Available          | Available            | Not Available        |
+| **Bluetooth Connectivity**   | Available (BLE 4.2)          | Not Available          | Available            | Not Available        |
+| **Flash Memory**             | 4 MB                         | Not Specified          | 4 MB                 | Not Specified        |
+| **USB-C Power Delivery**     | Supported                    | Supported              | Not Supported        | Supported            |
+| **Output Control**           | Adjustable                   | Adjustable             | Not Specified        | Adjustable           |
+| **Wireless Control**         | Yes                          | No                     | Yes                  | No                   |
+| **Smartphone App Support**   | Yes                          | No                     | No                   | No                   |
+| **Power Analysis**           | Accurate                     | Basic                  | Not Specified        | Basic                |
+| **Design**                   | Compact and Sleek            | Compact                | Ultra-Small          | Compact              |
+| **Open Source Status**       | Yes                          | Yes                    | Yes                  | No                   |
+| **Programming Interface**    | USB + JTAG                   | USB                    | USB                  | Not Applicable       |
+| **Inline Integration**       | Yes                          | No                     | Not Applicable       | No                   |
+| Power Delivery Range         | 5-20 VDC Supported           | 5-20 VDC Supported     | Not Supported        | 5-20 VDC Supported   |
+| **Price (USD)**              | $49                          | $28                    | $22                  | $16                  |
+
 
 ## License
 
