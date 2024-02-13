@@ -15,7 +15,7 @@ int adcIndex = 0;
 int adcSum = 0;
 
 unsigned long lastUpdateTime = 0;
-const unsigned long updateInterval = 500; // 500ms
+const unsigned long updateInterval = 100; // 500ms
 const int usb_pd_int_pin = 10;
 const int debug_led_pin  = 3;
 const int current_pin = 2;
@@ -23,6 +23,14 @@ int current = 0;
 bool output = INITIAL_OUTPUT_STATE;
 int voltage = VOLTAGE;
 int adcError = 0;
+// Prototypes
+// Function Prototypes
+void initializeSerialAndPins();
+void initializeUSB_PD();
+void updateStatus();
+void processCurrentReading();
+void checkCurrentLimit();
+int readFilteredADC(int pin);
 
 // USB-C Specific - TCPM start
 const struct tcpc_config_t tcpc_config[CONFIG_USB_PD_PORT_COUNT] = {
@@ -30,10 +38,18 @@ const struct tcpc_config_t tcpc_config[CONFIG_USB_PD_PORT_COUNT] = {
 };
 
 void setup() {
-  initializeFilter();
-  initializeSerialAndPins();
+  output = 0;
   initializeUSB_PD();
+  for(int i = 0; i < 30; i++)
+  {
+    processCurrentReading();
+
+  }
+  initializeSerialAndPins();
+
+  output = 1;
 }
+
 
 void loop() {
   updateStatus();
@@ -41,14 +57,7 @@ void loop() {
   checkCurrentLimit();
 }
 
-// Initialize the ADC filter
-void initializeFilter() {
-  for (int i = 0; i < FILTER_LENGTH; i++) {
-    adcSamples[i] = analogRead(current_pin);
-    adcSum += adcSamples[i];
-    delay(1); // Short delay for diverse samples
-  }
-}
+
 
 // Initialize Serial and Pin Modes
 void initializeSerialAndPins() {
@@ -78,6 +87,12 @@ void updateStatus() {
   if (millis() - lastUpdateTime >= updateInterval) {
     lastUpdateTime = millis();
     // Add any periodic update logic here
+    // Print voltage and current
+    Serial.print("Voltage: ");
+    Serial.print(voltage);
+    Serial.print("V, Current (mA): ");
+    Serial.println(current);
+
   }
   pd_run_state_machine(0);
 }
@@ -110,4 +125,14 @@ int readFilteredADC(int pin) {
     return adcSum / FILTER_LENGTH;
 }
 
-// Additional functions for USB PD or other functionalities can be added here
+// // // Additional functions for USB PD or other functionalities can be added here
+// #include <Arduino.h>
+
+// void setup() {
+//   Serial.begin(115200); // Initialize serial communication at 115200 baud rate
+// }
+
+// void loop() {
+//   Serial.println("Hello world!"); // Print "Hello world!" to the Serial Monitor
+//   delay(1000); // Wait for a second
+// }
