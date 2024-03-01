@@ -1,4 +1,4 @@
-# Spark Analyzer: The Ultimate USB-C Power Delivery Analyzer & Power Supply
+# Spark Analyzer: The Programmable USB-C Power Delivery Analyzer & Power Supply
 
 <p align="center">
 <img src="./images/SparkAnalyzer.jpg" width="800" height="444"/>
