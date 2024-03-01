@@ -1,3 +1,47 @@
+/**
+ * Spark Analyzer Firmware for BLE and USB-C Power Delivery Control
+ * 
+ * This firmware is designed for the Spark Analyzer, interfacing with its dedicated mobile app
+ * available at: https://play.google.com/store/apps/details?id=com.elektrothing.SparkAnalyzer
+ * 
+ * The firmware enables BLE communication for remote control and monitoring, alongside 
+ * managing USB-C Power Delivery (PD) for precise voltage and current control. 
+ * It is equipped with a moving average filter for stable current readings and uses EEPROM 
+ * for storing user-defined voltage settings.
+ * 
+ * Features:
+ * - BLE communication to interface with the Spark Analyzer mobile app.
+ * - USB-C PD management for adjustable voltage settings.
+ * - EEPROM for persistent storage of user-defined settings.
+ * - Real-time monitoring and control of voltage and current.
+ * - ADC readings with a moving average filter for accuracy.
+ * - LED indication for operational status and debugging.
+ * 
+ * Developed by Jason Too
+ * License: MIT
+ * 
+ * MIT License
+ * Copyright (c) 2023 elektroThing
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #include <ArduinoJson.h>
 #include <BLEDevice.h>
 #include <BLEUtils.h>

@@ -1,21 +1,19 @@
 /**
- * Spark Analyzer Firmware with Matter Integration
+ * Spark Analyzer Firmware
  * 
- * This firmware is developed for the Spark Analyzer, incorporating Matter (formerly Project CHIP) 
- * for smart home connectivity. It demonstrates a simple application of controlling an LED 
- * using Matter's OnOff cluster. The firmware also integrates USB-C Power Delivery (PD) for 
- * voltage management.
+ * This firmware is designed for the Spark Analyzer, a smart home device that integrates 
+ * with Matter (formerly known as Project CHIP). It enables the control of lighting 
+ * and window systems through USB-C Power Delivery (PD) protocol and Matter over Thread.
  * 
  * Key Features:
- * - Integration with Matter for smart home device control.
- * - Controlling an LED via Matter's OnOff cluster.
- * - USB-C Power Delivery for precise voltage regulation.
- * - Implementation of a toggle button with debouncing for manual control.
- * - Serial communication for debugging and monitoring device status.
- * - Setup for a Matter node, including endpoint and cluster initialization.
+ * - Matter integration for controlling On/Off cluster.
+ * - USB-C Power Delivery for voltage control and management.
+ * - Window control with dedicated pins for open/close status.
+ * - LED indicator management.
  * 
- * This firmware provides a practical example of combining Matter with traditional 
- * electronics control, suitable for IoT and smart home applications.
+ * The firmware sets up the Matter node, initializes USB PD, and controls the GPIO pins 
+ * based on Matter cluster updates. It uses the ESP Matter library for the Matter 
+ * implementation and handles the USB-C PD with a TCPM driver.
  * 
  * Developed by Jason Too
  * License: MIT
@@ -42,6 +40,7 @@
  * SOFTWARE.
  */
 
+
 #include <Arduino.h>
 #include <Wire.h>
 #include "tcpm_driver.h"
@@ -55,54 +54,32 @@ using namespace esp_matter;
 using namespace esp_matter::endpoint;
 
 
-// User-configurable constants
 #define VOLTAGE 12
 
-/**
- * This program presents example Matter light device with OnOff cluster by
- * controlling LED with Matter and toggle button.
- *
- * If your ESP does not have buildin LED, please connect it to LED_PIN
- *
- * You can toggle light by both:
- *  - Matter (via CHIPTool or other Matter controller)
- *  - toggle button (by default attached to GPIO0 - reset button, with debouncing) 
- */
-
-// Please configure your PINs
-const int LED_PIN = 3;
+const int LED_PIN = 3; // Pin 3 is used for LED
+const int WINDOW_OPEN_PIN = 8; // Pin 8 for window open status
+const int WINDOW_CLOSE_PIN = 9; // Pin 9 for window close status
 const int TOGGLE_BUTTON_PIN = 0;
-
-// Debounce for toggle button
 const int DEBOUNCE_DELAY = 500;
 int last_toggle;
 
-// Cluster and attribute ID used by Matter light device
 const uint32_t CLUSTER_ID = OnOff::Id;
 const uint32_t ATTRIBUTE_ID = OnOff::Attributes::OnOff::Id;
 
-// Endpoint and attribute ref that will be assigned to Matter device
 uint16_t light_endpoint_id = 0;
 attribute_t *attribute_ref;
 
-// There is possibility to listen for various device events, related for example to setup process
-// Leaved as empty for simplicity
 static void on_device_event(const ChipDeviceEvent *event, intptr_t arg) {}
-static esp_err_t on_identification(identification::callback_type_t type, uint16_t endpoint_id,
-                                   uint8_t effect_id, uint8_t effect_variant, void *priv_data) {
+static esp_err_t on_identification(identification::callback_type_t type, uint16_t endpoint_id, uint8_t effect_id, uint8_t effect_variant, void *priv_data) {
   return ESP_OK;
 }
 
-// Listener on attribute update requests.
-// In this example, when update is requested, path (endpoint, cluster and attribute) is checked
-// if it matches light attribute. If yes, LED changes state to new one.
-static esp_err_t on_attribute_update(attribute::callback_type_t type, uint16_t endpoint_id, uint32_t cluster_id,
-                                     uint32_t attribute_id, esp_matter_attr_val_t *val, void *priv_data) {
-  if (type == attribute::PRE_UPDATE && endpoint_id == light_endpoint_id &&
-      cluster_id == CLUSTER_ID && attribute_id == ATTRIBUTE_ID) {
-    // We got an light on/off attribute update!
-    bool new_state = val->val.b;
-    digitalWrite(LED_PIN, new_state);
+static esp_err_t on_attribute_update(attribute::callback_type_t type, uint16_t endpoint_id, uint32_t cluster_id, uint32_t attribute_id, esp_matter_attr_val_t *val, void *priv_data) {
+  if (type == attribute::PRE_UPDATE && endpoint_id == light_endpoint_id && cluster_id == CLUSTER_ID && attribute_id == ATTRIBUTE_ID) {
+    bool window_status = val->val.b;
+    digitalWrite(WINDOW_OPEN_PIN, window_status ? HIGH : LOW);
+    digitalWrite(WINDOW_CLOSE_PIN, window_status ? LOW : HIGH);
+    digitalWrite(LED_PIN, HIGH); // Ensure pin 3 is always ON
   }
   return ESP_OK;
 }
@@ -113,7 +90,6 @@ int voltage = VOLTAGE;
 const struct tcpc_config_t tcpc_config[CONFIG_USB_PD_PORT_COUNT] = {
   {0, fusb302_I2C_SLAVE_ADDR, &fusb302_tcpm_drv},
 };
-
 void setup() {
   initializeSerialAndPins();
   initializeUSB_PD();
@@ -145,7 +121,12 @@ void setup() {
 
   // Print codes needed to setup Matter device
   PrintOnboardingCodes(chip::RendezvousInformationFlags(chip::RendezvousInformationFlag::kBLE));
+  pinMode(WINDOW_OPEN_PIN, OUTPUT);
+  pinMode(WINDOW_CLOSE_PIN, OUTPUT);
+  pinMode(20, OUTPUT);
+  digitalWrite(20, HIGH); // Set pin 3 to HIGH in setup
 
+  digitalWrite(LED_PIN, HIGH); // Set pin 3 to HIGH in setup
 }
 
 // Reads light on/off attribute value

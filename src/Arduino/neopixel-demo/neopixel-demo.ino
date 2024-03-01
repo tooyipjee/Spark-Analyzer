@@ -1,3 +1,46 @@
+/**
+ * Spark Analyzer Firmware with BLE and NeoPixel Integration
+ * 
+ * This firmware is tailored for the Spark Analyzer, featuring BLE connectivity and
+ * NeoPixel LED strip control. It manages USB-C Power Delivery (PD) for precise
+ * voltage and current regulation, essential for various applications.
+ * 
+ * Features:
+ * - BLE communication for remote data exchange and control via a dedicated app.
+ * - NeoPixel LED strip control for dynamic visual feedback and indications.
+ * - USB-C PD management for adjustable voltage settings and current monitoring.
+ * - EEPROM utilization for storing and retrieving user settings.
+ * - Real-time ADC readings with a moving average filter for accurate current measurement.
+ * - Regular updates sent via BLE, including voltage, current, and output status.
+ * 
+ * The integration of BLE and NeoPixel provides an interactive and user-friendly 
+ * experience, making it suitable for educational, DIY, and IoT projects.
+ * 
+ * Developed by Jason Too
+ * License: MIT
+ * 
+ * MIT License
+ * Copyright (c) 2023 elektroThing
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #include <ArduinoJson.h>
 #include <BLEDevice.h>
 #include <BLEUtils.h>

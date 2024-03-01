@@ -1,3 +1,44 @@
+/*
+   -- Spark Analyzer BLE Communication Firmware --
+
+   This firmware enables Bluetooth Low Energy (BLE) communication for the Spark Analyzer,
+   facilitating data exchange between the device and a BLE client (e.g., a smartphone app).
+   The firmware uses the Arduino BLE library to create a BLE server with custom service 
+   and characteristic UUIDs.
+
+   Key Features:
+   - BLE server setup with custom UUIDs for service and characteristic.
+   - Handling connections and disconnections to/from BLE clients.
+   - Reading and parsing JSON data received from the client.
+   - Sending data packets back to the client at regular intervals.
+
+   The server sends updates on voltage, current, and output enable status at a defined 
+   interval. It also processes incoming data to control the device's output, voltage, 
+   and current limit based on client commands.
+
+   Developed by Jason Too
+   License: MIT
+
+   MIT License
+   Copyright (c) 2023 elektroThing
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy of 
+   this software and associated documentation files (the "Software"), to deal in 
+   the Software without restriction, including without limitation the rights to use, 
+   copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the 
+   Software, and to permit persons to whom the Software is furnished to do so, subject 
+   to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in all 
+   copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS 
+   FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+   COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER 
+   IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+   WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 #include <ArduinoJson.h>
 #include <BLEDevice.h>
 #include <BLEUtils.h>

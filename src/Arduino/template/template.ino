@@ -1,3 +1,48 @@
+/**
+ * Spark Analyzer Template Firmware for Custom Applications
+ * 
+ * This template firmware is designed for developers creating custom applications using 
+ * the Spark Analyzer platform. It provides foundational code for USB-C Power Delivery (PD) 
+ * and current monitoring, allowing for easy adaptation and extension to suit specific 
+ * application needs.
+ * 
+ * Features:
+ * - USB-C PD control for precise voltage regulation.
+ * - Real-time current measurement with a moving average filter.
+ * - Configurable settings for initial output state and current limit.
+ * - Debugging and monitoring capabilities through serial communication.
+ * - Flexible update interval for adaptive monitoring frequency.
+ * 
+ * This firmware serves as a starting point for developers to build upon. It includes 
+ * essential functionalities for power management and current monitoring, which are 
+ * crucial in many electronic and IoT applications.
+ * 
+ * Developed by Jason Too
+ * License: MIT
+ * 
+ * MIT License
+ * Copyright (c) 2023 elektroThing
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+
 #include <Arduino.h>
 #include <Wire.h>
 #include "tcpm_driver.h"

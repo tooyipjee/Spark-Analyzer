@@ -1,3 +1,48 @@
+/**
+ * PlatformIO Template Firmware for USB-C Power Delivery and Current Monitoring
+ * 
+ * This firmware, designed for PlatformIO, serves as a template for developers creating custom applications 
+ * involving USB-C Power Delivery (PD) and current monitoring. It is optimized for use in PlatformIO environment, 
+ * enabling developers to leverage its advanced features for efficient development.
+ * 
+ * Key Features:
+ * - Initialization and management of USB-C Power Delivery for precise voltage control.
+ * - Real-time current measurement using a moving average filter for accurate readings.
+ * - Configurable settings for initial output state and current limit.
+ * - Serial debugging support for real-time monitoring and troubleshooting.
+ * - Defined function prototypes for better code organization and readability.
+ * - Update interval configuration for flexible monitoring and control frequency.
+ * 
+ * Developers can use this template as a starting point to build sophisticated applications requiring 
+ * USB-C PD control and current monitoring, such as smart chargers, power management systems, 
+ * and laboratory equipment.
+ * 
+ * Developed by Jason Too
+ * License: MIT
+ * 
+ * MIT License
+ * Copyright (c) 2023 elektroThing
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+
 #include <Arduino.h>
 #include <Wire.h>
 #include "tcpm_driver.h"

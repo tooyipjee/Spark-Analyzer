@@ -1,18 +1,41 @@
 /*
-   -- Spark Analyzer --
+   -- Spark Analyzer GUI Firmware --
    
-   This source code of graphical user interface 
-   has been generated automatically by RemoteXY editor.
-   To compile this code using RemoteXY library 3.1.8 or later version 
-   download by link http://remotexy.com/en/library/
-   To connect using RemoteXY mobile app by link http://remotexy.com/en/download/                   
-     - for ANDROID 4.11.1 or later version;
-     - for iOS 1.9.1 or later version;
+   This source code is for the graphical user interface of the Spark Analyzer, 
+   a smart home device for monitoring and controlling power delivery. 
+   The GUI is generated automatically by the RemoteXY editor. 
+   The RemoteXY library (version 3.1.8 or later) is required for compiling this code, 
+   which can be downloaded from http://remotexy.com/en/library/.
+   To connect with the RemoteXY mobile app, visit http://remotexy.com/en/download/:
+     - ANDROID version 4.11.1 or later;
+     - iOS version 1.9.1 or later.
     
-   This source code is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.    
+   This source code is free software; you can redistribute it and/or modify it under 
+   the terms of the GNU Lesser General Public License as published by the Free Software 
+   Foundation, version 2.1 or any later version.    
+
+   Developed by Jason Too
+   License: MIT
+
+   MIT License
+   Copyright (c) 2023 elektroThing
+   
+   Permission is hereby granted, free of charge, to any person obtaining a copy of 
+   this software and associated documentation files (the "Software"), to deal in 
+   the Software without restriction, including without limitation the rights to use, 
+   copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the 
+   Software, and to permit persons to whom the Software is furnished to do so, subject 
+   to the following conditions:
+   
+   The above copyright notice and this permission notice shall be included in all 
+   copies or substantial portions of the Software.
+   
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS 
+   FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+   COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER 
+   IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+   WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #include <Wire.h>
 #include "tcpm_driver.h"
