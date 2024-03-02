@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #333;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin: 20px 0;
+    }
+
+    .container,
+    .input-section {
+      margin: 20px auto;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    label,
+    input,
+    button {
+      margin: 5px;
+      padding: 10px;
+      font-size: 1rem;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #059e8a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #04877a;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      /* Width of the switch */
+      height: 15px;
+      /* Height of the switch */
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+      /* Rounded corners for the slider */
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      /* Height of the slider button */
+      width: 26px;
+      /* Width of the slider button */
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      /* Circular shape for the slider button */
+    }
+
+    input:checked+.slider {
+      background-color: #059e8a;
+      /* Slider color when switch is checked */
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(26px);
+      /* Move slider button to the right when checked */
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Spark Analyzer Web App</h2>
+
+  <div id="chart-current" class="container"></div>
+
+  <div class="input-section">
+    <div>
+      <label for="voltage">Enter Voltage (5-16V):</label>
+      <input type="text" id="voltage" value="5">
+      <button onclick="setVoltage()">Set Voltage</button>
+    </div>
+
+    <div>
+      <label for="current">Enter Current (up to 3A):</label>
+      <input type="text" id="current" value="0">
+      <button onclick="setCurrent()">Set Current</button>
+    </div>
+  </div>
+
+  <div class="input-section">
+    <p>Voltage Display: <span id="voltageDisplay"></span></p>
+    <p>Current Display: <span id="currentDisplay"></span></p>
+    <div class="output-switch">
+      <label>Output: </label>
+      <label class="switch">
+        <input type="checkbox" id="outputToggle" onchange="setOutput()">
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </div>
+
+  <script>
+    var chartC = new Highcharts.Chart({
+      chart: { renderTo: 'chart-current' },
+      title: { text: 'Current (mA)' },
+      series: [{
+        showInLegend: false,
+        data: []
+      }],
+      plotOptions: {
+        line: { animation: false, dataLabels: { enabled: true } },
+        series: { color: '#059e8a' }
+      },
+      xAxis: {
+        type: 'datetime',
+        dateTimeLabelFormats: { second: '%H:%M:%S' }
+      },
+      yAxis: {
+        title: { text: 'Current (mA)' },
+
+      },
+      credits: { enabled: false }
+    });
+
+    setInterval(function () {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          var x = (new Date()).getTime(),
+            y = parseFloat(this.responseText);
+          if (chartC.series[0].data.length > 60) {
+            chartC.series[0].addPoint([x, y], true, true, true);
+          } else {
+            chartC.series[0].addPoint([x, y], true, false, true);
+          }
+        }
+      };
+      xhttp.open("GET", "/current", true);
+      xhttp.send();
+    }, 500); //Set sample rate
+
+    // Adjusted functions for text input
+    function setVoltage() {
+      var xhttp = new XMLHttpRequest();
+      var voltage = document.getElementById("voltage").value;
+      xhttp.open("GET", "/set_voltage?voltage=" + voltage, true);
+      xhttp.send();
+    }
+
+    function setCurrent() {
+      var xhttp = new XMLHttpRequest();
+      var current = document.getElementById("current").value;
+      xhttp.open("GET", "/set_current?current=" + current, true);
+      xhttp.send();
+    }
+
+    function updateVoltageDisplay() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("voltageDisplay").innerText = this.responseText + "V";
+        }
+      };
+      xhttp.open("GET", "/get_voltage", true);
+      xhttp.send();
+    }
+
+    function updateCurrentDisplay() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("currentDisplay").innerText = this.responseText + "A";
+        }
+      };
+      xhttp.open("GET", "/get_current", true);
+      xhttp.send();
+    }
+
+    setInterval(updateVoltageDisplay, 1000); // Update voltage every second
+    setInterval(updateCurrentDisplay, 1000); // Update current every second
+    function setOutput() {
+      var xhttp = new XMLHttpRequest();
+      var outputState = document.getElementById("outputToggle").checked ? "1" : "0";
+      xhttp.open("GET", "/set_output?output=" + outputState, true);
+      xhttp.send();
+    }
+
+  </script>
+</body>
+
+</html>
