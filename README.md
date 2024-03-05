@@ -6,35 +6,23 @@
 
 Live on Crowdsupply [now](https://www.crowdsupply.com/elektrothing/spark-analyzer).
 
-**Spark Analyzer** is an innovative and versatile ESP32-powered USB-C Power Delivery (UCPD) compatible device designed to enhance the development and debugging process for projects and prototypes. This compact and sleek power supply and analyzer can be seamlessly integrated inline with existing setups, providing invaluable insights and control over power delivery.
+**Spark Analyzer** is a versatile ESP32-powered device tailored for enhancing project development and debugging processes. It is fully compatible with USB-C Power Delivery (UCPD) and is further enhanced by a Programmable Power Supply (PPS) feature, allowing for precise control and management of power. Its compact design facilitates easy inline integration with existing setups, providing essential insights and control over power delivery.
 
-With Spark Analyzer, developers can easily monitor and manipulate voltage levels, log data, and analyze power consumption, all through a convenient and intuitive interface on their smartphones. The device is equipped with both WiFi and BLE connectivity, enabling wireless control and logging, eliminating the need for clunky physical buttons and allowing for remote operation from a distance.
-
-The sleek design of Spark Analyzer ensures it can be effortlessly attached to any existing UCPD compatible wall wart or power source, without requiring additional stands or tables. Its compact form factor guarantees flexibility and convenience, making voltage control and data logging accessible and hassle-free. 
+Equipped with WiFi and BLE, the Spark Analyzer offers wireless connectivity, enabling developers to remotely monitor and adjust voltage levels, log data, and analyze power consumption through a user-friendly smartphone interface. This design prioritizes convenience and efficiency, removing the need for physical buttons and supporting distance operation
 
 [![Spark Analyzer](https://img.youtube.com/vi/IWUR4Ur0Dy4/0.jpg)](https://www.youtube.com/watch?v=IWUR4Ur0Dy4)
 
 ## Features:
 
-- **USB-C Power Delivery Compatibility**: Spark Analyzer is fully compatible with USB-C Power Delivery, ensuring compatibility with a myriad of devices and applications.
-  
-- **Wireless Control and Logging**: Say goodbye to physical buttons. With built-in WiFi and BLE, control and log data wirelessly using your smartphone.
-  
-- **Adjustable Voltage Output**: Precisely control voltage levels to suit your project's needs. Switchable to 5V, 9V, 15V, and 20V, 
-   
-- **Compact and Sleek Design**: Integrate Spark Analyzer effortlessly with your existing setups without the need for additional equipment.
-  
-- **Inline Integration**: Enhance convenience by integrating Spark Analyzer inline with UCPD compatible power sources.
+1. **Power Control and Analysis with PPS and PD**: The Spark Analyzer excels in power management with its Programmable Power Supply (PPS) and Power Delivery (PD) capabilities. Precisely control voltage from 3.3V to 21V at 20 mV resolution and set current limits up to 3A with 50mA resolution with PPS or use PD for adjustable voltage output options (5V, 9V, 15V, 20V). Combined with its current sensor, it allows for accurate current draw measurements, essential for understanding power usage in your projects.
 
-- **IO Breakout**: Incorporate higher voltage into your existing projects with ease. Spark Analyzer features a separate 3.3V power domain.
+2. **Wireless Control**: Untehther your development process with the Spark Analyzer’s wireless capabilities. With both WiFi and BLE, this tool allows remote, app-based control and data logging. Users can adjust settings and monitor data from a distance, offering a more flexible development experience.
 
-- **Power Analyzer Capability**: Measure your project's current draw with precision. Understand your power needs and optimize accordingly.
+3. **Open Source & Programmable**: As an open-source device, the Spark Analyzer offers unmatched versatility. It is fully programmable, allowing you to tailor its functionality to your specific applications. This customization extends to software and hardware, opening up endless possibilities for creative and efficient project development.
 
-- **Software Safety Cut-off**: No more worries about excessive current draw. Spark Analyzer's current sensing capability ensures the output FET is switched off during high current scenarios, safeguarding your equipment.
+4. **Compact**: Designed for convenience, the Spark Analyzer's compact and sleek form factor allows for seamless integration into existing setups. Its compatibility with UCPD power sources and inline integration capability minimizes the need for additional equipment or extensive redesign, making it a versatile and user-friendly addition to any development environment.
 
-- **Output FET**: Toggle high voltage output on and off with the integrated output FET, providing you with more control over your power delivery.
-
-- **Open Source Development**: Customize and expand Spark Analyzer's capabilities with its open-source nature. Dive deep into its functionalities and tailor it to your specific needs.
+5. **Safety**: Safety is crucial when working with electricity and is at the heart of Spark Analyzer. An integrated output FET allows for software programmable current limit that switches off the power in high-current scenarios. 
 
 ## Specifications:
 
@@ -78,25 +66,6 @@ The sleek design of Spark Analyzer ensures it can be effortlessly attached to an
 <img src="./images/TopDown.jpg" width="600" height="400"/>
 </p>
 
-## Features
-
-- **USB-C Power Delivery Compatibility**: Fully compatible with USB-C Power Delivery, making it versatile for various devices and applications.
-
-- **Wireless Control and Logging**: With built-in Wi-Fi and BLE, you can control and log data wirelessly using your smartphone, eliminating the need for physical buttons and allowing remote operation.
-
-- **Adjustable Voltage Output**: Precisely control voltage levels with options for 5 VDC, 9 VDC, 15 VDC, and 20 VDC, catering to your project's specific needs.
-
-- **Compact and Sleek Design**: Designed for inline integration, Spark Analyzer seamlessly attaches to UCPD compatible power sources without the need for additional equipment.
-
-- **IO Breakout**: Incorporate higher voltage into your projects with ease, thanks to Spark Analyzer's separate 3.3 VDC power domain.
-
-- **Power Analyzer Capability**: Measure your project's current draw with precision, enabling you to understand your power requirements better and optimize accordingly.
-
-- **Software Safety Cut-off**: Ensures protection against excessive current draw by switching off the output FET during high current scenarios.
-
-- **Output FET**: Provides control over the high voltage output, giving you more command over your power delivery.
-
-- **Open Source Development**: Spark Analyzer is open source, allowing for customization and expansion of its capabilities. Dive into the [GitHub repo](https://github.com/tooyipjee/Spark-Analyzer/tree/master) for detailed documentation.
 
 ## Spark Analyzer Mobile App 
 
