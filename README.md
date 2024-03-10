@@ -20,31 +20,31 @@ Equipped with WiFi and BLE, the Spark Analyzer offers wireless connectivity, ena
 
 3. **Open Source & Programmable**: As an open-source device, the Spark Analyzer offers unmatched versatility. It is fully programmable, allowing you to tailor its functionality to your specific applications. This customization extends to software and hardware, opening up endless possibilities for creative and efficient project development.
 
-4. **Compact**: Designed for convenience, the Spark Analyzer's compact and sleek form factor allows for seamless integration into existing setups. Its compatibility with UCPD power sources and inline integration capability minimizes the need for additional equipment or extensive redesign, making it a versatile and user-friendly addition to any development environment.
+4. **Compact Design**: Designed for convenience, the Spark Analyzer's compact and sleek form factor allows for seamless integration into existing setups. Its compatibility with UCPD power sources and inline integration capability minimizes the need for additional equipment or extensive redesign, making it a versatile and user-friendly addition to any development environment.
 
 5. **Safety**: Safety is crucial when working with electricity and is at the heart of Spark Analyzer. An integrated output FET allows for software programmable current limit that switches off the power in high-current scenarios. 
+  
+## Specifications
 
-## Specifications:
+#### Power
+- **Negotiable Power Delivery**: Options of 5 VDC, 9 VDC, 12 VDC, 15 VDC, 20 VDC; max 5 A (100 W at 20 VDC). It is also PPS compatible up to 21 VDC.
+- **USB Type-C Port**: For power delivery and integrated JTAG programming.
+- **ON Semiconductor [FUSB302MPX](https://www.onsemi.com/pdf/datasheet/fusb302b-d.pdf)**: Programmable USB Type-C control and USB PD communication.
+- **ESD Protection**: On D+/D-/CC1/CC2 pins.
+- **Texas Instruments [TPS62175DQCT](https://www.ti.com/product/TPS62175/part-details/TPS62175DQCT)**: 3.3 VDC 0.5 A max output DC-DC Step-Down Converter.
+- **Power Output**: 3.5 mm, 2-position terminal block.
 
-### Power
-- **Negotiable Power Delivery:** Options of 5 VDC, 9 VDC, 12 VDC, 15 VDC, 20 VDC; max 5 A (100 W at 20 VDC).
-- **USB Type-C Port:** For power delivery and integrated JTAG programming.
-- **ON Semiconductor [FUSB302MPX](https://www.onsemi.com/pdf/datasheet/fusb302b-d.pdf):** Programmable USB Type-C control and USB PD communication.
-- **ESD Protection:** On D+/D-/CC1/CC2 pins.
-- **Texas Instruments [TPS62175DQCT](https://www.ti.com/product/TPS62175/part-details/TPS62175DQCT):** 3.3 VDC 0.5 A max output DC-DC Step-Down Converter.
-- **Power Output:** 3.5 mm, 2-position terminal block.
+#### I/O Configuration
+- **GPIOs**: 4 GPIOs (I2C, UART, SPI compatible).
+- **Power Pins**: 1x 5 VDC and 1x GND.
 
-### I/O Configuration
-- **GPIOs:** 4 GPIOs (I2C, UART, SPI compatible).
-- **Power Pins:** 1x 5 VDC and 1x GND.
+#### Microcontroller
+- **Model**: [ESP32-C3FH4](https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf) with 40 MHz crystal.
+- **Wi-Fi**: 802.11b/g/n.
+- **Bluetooth**: BLE 4.2.
+- **Flash Memory**: 4 MB.
 
-### Microcontroller
-- **Model:** [ESP32-C3FH4](https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf) with 40 MHz crystal.
-- **Wi-Fi:** 802.11b/g/n.
-- **Bluetooth:** BLE 4.2.
-- **Flash Memory:** 4 MB.
-
-### Interface
+#### Interface
 - **3x LED Indicators**
   - Power On
   - Output Enable
@@ -53,14 +53,15 @@ Equipped with WiFi and BLE, the Spark Analyzer offers wireless connectivity, ena
   - Reset
   - Programmable Button/Debug
 
-### Programming
-- **Integrated JTAG Controller:** For programming.
-- **USB-C:** Built-in USB JTAG programmer (ESP32-C3), compatible with Arduino. Select ESP32-C3 Dev Board.
+#### Programming
+- **Integrated JTAG Controller**: For programming.
+- **USB-C**: Built-in USB JTAG programmer (ESP32-C3), compatible with Arduino. Select ESP32-C3 Dev Board.
 
-### Output
-- **Current Output:** [CC6904SO-10A](https://datasheet.lcsc.com/lcsc/2304140030_Cross-chip-CC6904SO-10A_C469389.pdf).
-- **Current Sensor:** Hall Effect Current Sensor.
-- **Output Enable:** [DMP3017SFG-7 FET](https://www.diodes.com/assets/Datasheets/products_inactive_data/DMP3017SFG.pdf).
+#### Output
+- **Current Output**: [CC6904SO-10A](https://datasheet.lcsc.com/lcsc/2304140030_Cross-chip-CC6904SO-10A_C469389.pdf).
+- **Current Sensor**: Hall Effect Current Sensor.
+- **Output Enable**: [DMP3017SFG-7 FET](https://www.diodes.com/assets/Datasheets/products_inactive_data/DMP3017SFG.pdf).
+
   
 <p align="center">
 <img src="./images/TopDown.jpg" width="600" height="400"/>
