@@ -59,19 +59,17 @@
 #include <WiFiManager.h> // Include the WiFiManager library
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
-#include <EEPROM.h> // Include EEPROM library
+#include <Preferences.h>
 
 void initializeSerialAndPins();
 void initializeUSB_PD();
 void updateStatus();
 void processCurrentReading();
-void checkCurrentLimit();
 int readFilteredADC(int pin);
 
 // User-configurable constants
 #define FILTER_LENGTH 10
 #define INITIAL_OUTPUT_STATE 0 // 1 for On, 0 for Off
-#define CURRENT_LIMIT 0        // Set to desired limit, 0 for no limit
 #define VOLTAGE 5
 
 // Filter variables
@@ -91,26 +89,20 @@ int voltage = VOLTAGE;
 int adcError = 0;
 
 PD_UFP_c PD_UFP;
+Preferences preferences;
 
-void handleVoltageChange(AsyncWebServerRequest *request)
-{
-  if (request->hasParam("voltage"))
-  {
+void handleVoltageChange(AsyncWebServerRequest *request) {
+  if (request->hasParam("voltage")) {
     int newVoltage = request->getParam("voltage")->value().toInt();
-    if (newVoltage != voltage)
-    {
-      EEPROM.writeInt(0, newVoltage); // Write new voltage to EEPROM
-      EEPROM.commit();                // Commit changes to EEPROM
-      esp_restart();                  // Restart ESP32-C3 to apply new voltage setting
-    }
-    else
-    {
+    if (newVoltage != voltage) {
+      // Write new voltage to Preferences
+      preferences.putUInt("voltage", newVoltage);
+      esp_restart(); // Restart ESP32 to apply new voltage setting
+    } else {
       request->send(200, "text/plain", "Voltage unchanged");
     }
     request->send(200, "text/plain", String(voltage));
-  }
-  else
-  {
+  } else {
     request->send(400, "text/plain", "Voltage parameter missing");
   }
 }
@@ -146,11 +138,11 @@ void handleOutputControl(AsyncWebServerRequest *request)
 AsyncWebServer server(80);
 void setup()
 {
-  EEPROM.begin(4); // Initialize EEPROM with enough space to store an int
-  if (EEPROM.read(0) != 0xFF)
-  {                              // Check if EEPROM is not empty
-    voltage = EEPROM.readInt(0); // Read stored voltage
-  }
+  // Initialize Preferences with namespace "storage". False for read/write mode.
+  preferences.begin("storage", false);
+  // Retrieve stored voltage value or default to VOLTAGE if not set.
+  voltage = preferences.getUInt("voltage", VOLTAGE);
+
   WiFiManager wifiManager;                   // Initialize WiFiManager
   wifiManager.autoConnect("Spark Analyzer"); // Auto-connect to WiFi. Change "ESP32_Device" to your desired AP name
 
@@ -193,7 +185,6 @@ void loop()
 {
   updateStatus();
   processCurrentReading();
-  checkCurrentLimit();
 }
 
 // Initialize Serial and Pin Modes
@@ -262,14 +253,6 @@ void processCurrentReading()
   current = 5.6865 * (readFilteredADC(current_pin) - adcError);
 }
 
-// Check if current exceeds limit
-void checkCurrentLimit()
-{
-  if (current > CURRENT_LIMIT && CURRENT_LIMIT != 0)
-  {
-    output = 0;
-  }
-}
 
 // Reads ADC value with a moving average filter
 int readFilteredADC(int pin)

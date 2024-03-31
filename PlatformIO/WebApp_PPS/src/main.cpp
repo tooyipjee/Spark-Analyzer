@@ -13,7 +13,6 @@
 
    Key components and libraries:
      - ESPAsyncWebServer: For handling HTTP requests and serving the web interface.
-     - EEPROM: To store and retrieve persistent settings such as the voltage level.
      - WiFiManager: To facilitate easy WiFi connectivity and configuration.
      - SPIFFS: For storing and accessing web interface files.
 
@@ -59,7 +58,6 @@
 #include <WiFiManager.h> // Include the WiFiManager library
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
-#include <EEPROM.h> // Include EEPROM library
 
 void initializeSerialAndPins();
 void initializeUSB_PD();

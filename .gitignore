@@ -1,0 +1,29 @@
+# PlatformIO - General
+*.pio/
+*.pioenvs/
+*.piolibdeps/
+*.vscode/
+*__pycache__/
+*.py[cod]
+
+# PlatformIO - Build outputs
+*.pio/build/
+*.pio/penv/
+
+# Arduino - General
+*.io
+*.swp
+*.lock
+*.DS_Store
+*Thumbs.db
+
+# Arduino - Build files
+*/build/
+*/tmp/
+
+# Logs and databases
+*.log
+*.sqlite
+
+# Exclude all .zip files to avoid including archives of PCB projects
+*.zip
