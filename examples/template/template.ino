@@ -1,21 +1,20 @@
 /**
- * Spark Analyzer Template Firmware for Custom Applications
+ *  Spark Analyzer Firmware for Custom Applications
  * 
- * This template firmware is designed for developers creating custom applications using 
- * the Spark Analyzer platform. It provides foundational code for USB-C Power Delivery (PD) 
- * and current monitoring, allowing for easy adaptation and extension to suit specific 
- * application needs.
+ * This firmware for the Spark Analyzer platform integrates USB-C Power Delivery (PD) control and precise current monitoring. Designed for customization, it supports a broad range of applications from power management to IoT devices.
  * 
  * Features:
- * - USB-C PD control for precise voltage regulation.
- * - Real-time current measurement with a moving average filter.
- * - Configurable settings for initial output state and current limit.
- * - Debugging and monitoring capabilities through serial communication.
- * - Flexible update interval for adaptive monitoring frequency.
+ * - Precision voltage regulation via USB-C PD, with support for multiple voltage levels.
+ * - Accurate current measurement using a moving average filter, including automatic zero-error calibration.
+ * - Configurable initial output state and adjustable monitoring frequency.
+ * - Enhanced debugging and serial communication for real-time monitoring.
  * 
- * This firmware serves as a starting point for developers to build upon. It includes 
- * essential functionalities for power management and current monitoring, which are 
- * crucial in many electronic and IoT applications.
+ * Customization Points:
+ * - Voltage level selection for diverse application needs.
+ * - Non-blocking current sensor updates ensure uninterrupted PD control.
+ * - Clear integration points for developers to add application-specific logic.
+ * 
+ * Ideal for developers seeking a robust foundation for building electronic systems with advanced power management and monitoring requirements.
  * 
  * Developed by Jason Too
  * License: MIT
@@ -42,112 +41,67 @@
  * SOFTWARE.
  */
 
-
+// Import required libraries
 #include <Arduino.h>
 #include <Wire.h>
-#include <PD_UFP.h>
+#include <PD_UFP.h> // USB Power Delivery (PD) library for control over USB-C
+#include "CurrentSensor.h" // Custom class for handling current sensing
 
-// User-configurable constants
-#define FILTER_LENGTH 10
-#define INITIAL_OUTPUT_STATE 1 // 1 for On, 0 for Off
-#define CURRENT_LIMIT 0        // Set to desired limit, 0 for no limit
+// Define desired USB PD voltage setting
 #define VOLTAGE PD_POWER_OPTION_MAX_5V
-// PD_POWER_OPTION_MAX_5V	
-// PD_POWER_OPTION_MAX_9V	
-// PD_POWER_OPTION_MAX_12V	
-// PD_POWER_OPTION_MAX_15V	
-// PD_POWER_OPTION_MAX_20V	
+// Options:
+// PD_POWER_OPTION_MAX_5V
+// PD_POWER_OPTION_MAX_9V
+// PD_POWER_OPTION_MAX_12V
+// PD_POWER_OPTION_MAX_15V
+// PD_POWER_OPTION_MAX_20V
 
-// Filter variables
-int adcSamples[FILTER_LENGTH];
-int adcIndex = 0;
-int adcSum = 0;
-
+// Timing for non-blocking updates
 unsigned long lastUpdateTime = 0;
-const unsigned long updateInterval = 100; // 500ms
-const int usb_pd_int_pin = 10;
-const int output_pin  = 3;
-const int current_pin = 2;
-int current = 0;
-bool output = INITIAL_OUTPUT_STATE;
-int adcError = 0;
-
+const unsigned long updateInterval = 100; // Interval for current sensor updates in milliseconds
+// Pin assignments - AVALIABLE PINS ARE 8, 9, 20 (RX)  & 21 (TX)
+const int usb_pd_int_pin = 10; // USB PD interrupt pin
+const int output_pin = 3; // Output control pin (e.g., to turn a device on/off)
+const int current_pin = 2; // Analog pin for current sensor input
+// Initialize objects for USB PD control and current sensing
+CurrentSensor currentSensor(current_pin);
 PD_UFP_c PD_UFP;
 
-
 void setup() {
-  initializeSerialAndPins();
-  initializeUSB_PD();
-  for(int i = 0; i < 30; i++)
-  {
-    processCurrentReading();
+  Serial.begin(115200); // Start serial communication for debugging
+  Serial.println("Initializing...");
+  // Setup pin modes for control signals and sensors
+  pinMode(usb_pd_int_pin, INPUT);
+  pinMode(output_pin, OUTPUT);
+  digitalWrite(output_pin, LOW); // Initially set output to LOW (off) for calibration
+  pinMode(current_pin, INPUT);
+  // Calibrate the current sensor to account for zero error
+  currentSensor.calibrateZeroError();
+  digitalWrite(output_pin, HIGH); // Set output to HIGH (on) after calibration
+  // Initialize I2C for USB PD control
+  Wire.begin();
+  Wire.setClock(400000); // Set I2C clock speed to 400kHz
+  PD_UFP.init(usb_pd_int_pin, VOLTAGE); // Initialize USB PD with the selected voltage
 
-  }
+  // ### User can add initialization code for other components here ###
+
+
 }
 
 void loop() {
-  updateStatus();
-  processCurrentReading();
-  checkCurrentLimit();
-}
-
-
-
-// Initialize Serial and Pin Modes
-void initializeSerialAndPins() {
-  Serial.begin(115200);
-  Serial.println("Initializing...");
-
-  pinMode(usb_pd_int_pin, INPUT);
-  pinMode(output_pin, OUTPUT);
-  digitalWrite(output_pin, HIGH);
-  pinMode(current_pin, INPUT);
-}
-
-// Initialize USB Power Delivery
-void initializeUSB_PD() {
-  Wire.begin(1, 0);
-  Wire.setClock(400000);
-  PD_UFP.init(usb_pd_int_pin, PD_POWER_OPTION_MAX_20V);
-
-}
-
-// Update status at intervals
-void updateStatus() {
+  // Perform a non-blocking check to update the current sensor reading
   if (millis() - lastUpdateTime >= updateInterval) {
-    lastUpdateTime = millis();
-    // Add any periodic update logic here
-    Serial.print("Current (mA): ");
-    Serial.println(current);
+    lastUpdateTime = millis(); // Update the time of the last update
+    currentSensor.update(); // Perform the current sensor reading update
+
+    // ### User can add code here to react to the updated current reading ###
+
 
   }
+  // Continuously run PD_UFP to handle USB PD communication efficiently
   PD_UFP.run();
-}
 
-// Process current reading and adjust LED status
-void processCurrentReading() {
-  if(output) {
-    digitalWrite(output_pin, HIGH);
-  } else {
-    adcError = readFilteredADC(current_pin);
-    digitalWrite(output_pin, LOW);
-  }
-  current = 5.6865 * (readFilteredADC(current_pin) - adcError);
-}
+  // ### User can add general application code here that needs to run continuously ###
 
-// Check if current exceeds limit
-void checkCurrentLimit() {
-  if(current > CURRENT_LIMIT && CURRENT_LIMIT != 0) {
-    output = 0;
-  }
-}
 
-// Reads ADC value with a moving average filter
-int readFilteredADC(int pin) {
-    int newSample = analogRead(pin);
-    adcSum -= adcSamples[adcIndex];
-    adcSamples[adcIndex] = newSample;
-    adcSum += newSample;
-    adcIndex = (adcIndex + 1) % FILTER_LENGTH;
-    return adcSum / FILTER_LENGTH;
 }
