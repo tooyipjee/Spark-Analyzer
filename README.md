@@ -4,11 +4,14 @@
 <img src="./images/SparkAnalyzer.jpg" width="800" height="444"/>
 </p>
 
-Live on Crowdsupply [now](https://www.crowdsupply.com/elektrothing/spark-analyzer).
+
+**Just received your Spark Analyzer? Check out our quickstart here! - https://www.elektrothing.com/spark-analyzer-quickstart"**
 
 **Spark Analyzer** is a versatile ESP32-powered device tailored for enhancing project development and debugging processes. It is fully compatible with USB-C Power Delivery (UCPD) and is further enhanced by a Programmable Power Supply (PPS) feature, allowing for precise control and management of power. Its compact design facilitates easy inline integration with existing setups, providing essential insights and control over power delivery.
 
 Equipped with WiFi and BLE, the Spark Analyzer offers wireless connectivity, enabling developers to remotely monitor and adjust voltage levels, log data, and analyze power consumption through a user-friendly smartphone interface. This design prioritizes convenience and efficiency, removing the need for physical buttons and supporting distance operation
+
+Fully funded on Crowdsupply [now](https://www.crowdsupply.com/elektrothing/spark-analyzer).
 
 [![Spark Analyzer](https://img.youtube.com/vi/IWUR4Ur0Dy4/0.jpg)](https://www.youtube.com/watch?v=IWUR4Ur0Dy4)
 
