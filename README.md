@@ -69,13 +69,12 @@ Fully funded on Crowdsupply [now](https://www.crowdsupply.com/elektrothing/spark
 - **Current Sensor**: Hall Effect Current Sensor.
 - **Output Enable**: [DMP3017SFG-7 FET](https://www.diodes.com/assets/Datasheets/products_inactive_data/DMP3017SFG.pdf).
 
-  
 <p align="center">
 <img src="./images/TopDown.jpg" width="600" height="400"/>
 </p>
 
 
-## Spark Analyzer Mobile App 
+## Spark Analyzer Mobile App
 
 <p align="center">
 <img src="./images/App.jpg" width="400" height="800"/>
@@ -89,7 +88,7 @@ The Spark Analyzer Mobile App, currently done for [Android](https://play.google.
 - **Output Toggle**: Turn the power output on or off conveniently with a toggle switch.
 - **Current Logging**: Save current draw as a .csv file.
 - **Current Limit**: Ability to set a software current trip as a safety feature.
-- **Read-time Display**: View current set point, current draw and output enable in real time on your phone. 
+- **Read-time Display**: View current set point, current draw and output enable in real time on your phone.
 
 ### Key Features:
 
@@ -108,7 +107,7 @@ The Spark Analyzer Mobile App is continuously being improved, with several new f
 At the heart of Spark Analyzer's design is a commitment to reliability and performance. To ensure that Spark Analyzer stands up to real-world demands, we subjected it to testing under use conditions.
 
 ### Max Current Test: 3A at 9V
-Under a load condition of 3A at 9V, Spark Analyzer showcased its robust power delivery capabilities without any hitches. 
+Under a load condition of 3A at 9V, Spark Analyzer showcased its robust power delivery capabilities without any hitches.
 
 <p align="center">
 <img src="./images/9V_3A.jpg" width="800" height="450"/>
