@@ -5,7 +5,7 @@
 </p>
 
 
-**Just received your Spark Analyzer? Check out our quickstart [here](https://www.elektrothing.com/spark-analyzer-quickstart)!**
+**Just received your Spark Analyzer? Check out our [quickstart guide](https://www.elektrothing.com/spark-analyzer-quickstart)!**
 
 The **Spark Analyzer** excels in power management. It is a versatile ESP32-powered device tailored for enhancing project development and debugging processes. It is fully compatible with USB-C Power Delivery (PD) and also supports the Programmable Power Supply (PPS) feature, allowing for precise control and management of power. Its compact design facilitates easy inline integration with existing setups, providing essential insights and control over power delivery.
 
