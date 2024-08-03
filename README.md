@@ -34,7 +34,7 @@ Fully funded on Crowdsupply [now](https://www.crowdsupply.com/elektrothing/spark
 ## Specifications
 
 #### Power
-- **Negotiable Power Delivery**: Options of 5 VDC, 9 VDC, 12 VDC, 15 VDC, 20 VDC; max 5 A (100 W at 20 VDC). It is also PPS compatible up to 21 VDC.
+- **Negotiable Power Delivery**: Options of 5 VDC, 9 VDC, 12 VDC, 15 VDC, 20 VDC; max 5 A (100 W at 20 VDC). It is also PPS compatible up to 21 VDC. Note: the Spark Analyzer comes preinstalled with firmware that supports PD. If you want to use PPS you can load this version instead: [WebApp_PPS](https://github.com/tooyipjee/Spark-Analyzer/tree/master/PlatformIO/WebApp_PPS).
 - **USB Type-C Port**: For power delivery and integrated JTAG programming.
 - **ON Semiconductor [FUSB302MPX](https://www.onsemi.com/pdf/datasheet/fusb302b-d.pdf)**: Programmable USB Type-C control and USB PD communication.
 - **ESD Protection**: On D+/D-/CC1/CC2 pins.
