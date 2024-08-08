@@ -157,6 +157,26 @@ Our designs have undergone rigorous testing and verification. We've already prod
 | **Price (USD)**              | $49                          | $28                    | $22                  | $16                  |
 
 
+## Firmware development
+
+If you want to modify the functionality of the Spark Analyzer or contribute to it's firmware development process, you can follow the steps below.
+
+* clone this repository `git clone https://github.com/tooyipjee/Spark-Analyzer.git`
+* install [Visual Studio Code](https://code.visualstudio.com/Docs/setup/setup-overview)
+* install the [PlatformIO](https://platformio.org/) plugin in VSCode
+* open the project you want to use: [WebApp for Power Delivery](https://github.com/tooyipjee/Spark-Analyzer/tree/master/PlatformIO/WebApp) or [WebApp for Programmable Power Supply](https://github.com/tooyipjee/Spark-Analyzer/tree/master/PlatformIO/WebApp_PPS)
+* connect the Spark Analyzer with a usb-C to usb-C cable to your computer
+* open the "Monitor" task in PlatformIO
+  * you may have to configure the serial port in `platformio.ini` file, e.g.
+  ```
+    upload_port = /dev/ttyACM0
+    monitor_port = /dev/ttyACM0
+  ```
+* make sure you see the boot messages
+* perform the "Build" task to build the firmware
+* then perform the "Upload" task to flash the new firmware
+* once the flashing is complete, perform "Build Filesystem Image" and "Upload Filesystem Image" tasks
+
 ## License
 
 MIT License
