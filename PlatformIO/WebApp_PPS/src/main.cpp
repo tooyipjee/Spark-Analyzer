@@ -62,6 +62,7 @@
 void initializeSerial();
 void initializePins();
 void initializeUSB_PD();
+void printStatus();
 void updateStatus();
 void processCurrentReading();
 int readFilteredADC(int pin);
@@ -69,8 +70,9 @@ int readFilteredADC(int pin);
 // User-configurable constants
 #define FILTER_LENGTH 10
 #define INITIAL_OUTPUT_STATE 0 // 1 for On, 0 for Off
-#define UART Serial // debug output via the USB C port
-// #define UART Serial0 // debut output via the UART pin header
+// #define UART Serial // debug output via the USB C port
+#define UART Serial0 // debut output via the UART pin header
+const unsigned long updateInterval = 10000; // Set debug output rate
 
 // Filter variables
 int adcSamples[FILTER_LENGTH];
@@ -78,7 +80,6 @@ int adcIndex = 0;
 int adcSum = 0;
 
 unsigned long lastUpdateTime = 0;
-const unsigned long updateInterval = 100; // Set sample rate
 const int usb_pd_int_pin = 10;
 const int output_pin = 3;
 const int current_pin = 2;
@@ -160,15 +161,17 @@ void handleOutputControl(AsyncWebServerRequest *request)
     request->send(400, "text/plain", "Output parameter missing");
   }
 }
+
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
+
 void setup()
 {
   initializeSerial();
 
   WiFiManager wifiManager;                   // Initialize WiFiManager
   wifiManager.autoConnect("Spark Analyzer"); // Auto-connect to WiFi. Change "ESP32_Device" to your desired AP name
-  UART.println("Connected to WiFi");
+  UART.printf("Connected to WiFi: %s\n", wifiManager.getWiFiSSID().c_str());
 
   initializeUSB_PD();
   for (int i = 0; i < 30; i++)
@@ -176,6 +179,7 @@ void setup()
     processCurrentReading();
   }
   initializePins();
+  printStatus();
 
   // Initialize SPIFFS
   if (!SPIFFS.begin())
@@ -183,8 +187,8 @@ void setup()
     UART.println("An Error has occurred while mounting SPIFFS");
     return;
   }
-  UART.print("To access the web app, open your browser and navigate to -> ");
-  UART.println(WiFi.localIP());
+  UART.println("To access the web app, open your browser and navigate to -> ");
+  UART.printf("http://%s\n", WiFi.localIP().toString().c_str());
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/index.html"); });
@@ -201,9 +205,11 @@ void setup()
 
   server.begin();
 
+  printStatus();
   // Debug pin lights up when ready.
   pinMode(debug_led, OUTPUT);
   digitalWrite(debug_led, HIGH);
+  UART.println("Setup complete");
 }
 
 void loop()
@@ -240,7 +246,18 @@ void initializeUSB_PD()
   Wire.begin(1, 0);
   Wire.setClock(400000);
   PD_UFP.init_PPS(usb_pd_int_pin, PPS_V(5), PPS_A(2.0));
- }
+}
+
+// Print system status
+void printStatus()
+{
+  UART.printf("[%10u] PPS mode, Voltage: %5.3f V, Current: %d mA (%5.3f A), Output: %s\n",
+    millis(),
+    voltage,
+    current,
+    currentSet,
+    output ? "enabled" : "disabled");
+}
 
 // Update status at intervals
 void updateStatus()
@@ -248,7 +265,9 @@ void updateStatus()
   if (millis() - lastUpdateTime >= updateInterval)
   {
     lastUpdateTime = millis();
-    // Add any periodic update logic here
+
+    // Add any periodic update logic below
+    printStatus();
   }
   PD_UFP.run();
 }
