@@ -59,7 +59,8 @@
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 
-void initializeSerialAndPins();
+void initializeSerial();
+void initializePins();
 void initializeUSB_PD();
 void updateStatus();
 void processCurrentReading();
@@ -68,6 +69,8 @@ int readFilteredADC(int pin);
 // User-configurable constants
 #define FILTER_LENGTH 10
 #define INITIAL_OUTPUT_STATE 0 // 1 for On, 0 for Off
+#define UART Serial // debug output via the USB C port
+// #define UART Serial0 // debut output via the UART pin header
 
 // Filter variables
 int adcSamples[FILTER_LENGTH];
@@ -93,8 +96,8 @@ void handleCurrentChange(AsyncWebServerRequest *request) {
     float newCurrent = request->getParam("current")->value().toFloat();
     if (newCurrent != currentSet) {
       currentSet = newCurrent;
-      Serial.print("Current changed to ");
-      Serial.println(currentSet);
+      UART.print("Current changed to ");
+      UART.println(currentSet);
       PD_UFP.set_PPS(PPS_V(voltage), PPS_A(currentSet));
       request->send(200, "text/plain", "Current limit updated");
     } else {
@@ -113,8 +116,8 @@ void handleVoltageChange(AsyncWebServerRequest *request)
     {
      
       voltage = newVoltage;
-      Serial.print("Voltage changed to ");
-      Serial.println(voltage);
+      UART.print("Voltage changed to ");
+      UART.println(voltage);
       // esp_restart();                  // Restart ESP32-C3 to apply new voltage setting
       PD_UFP.set_PPS(PPS_V(voltage), PPS_A(currentSet));
     }
@@ -161,27 +164,27 @@ void handleOutputControl(AsyncWebServerRequest *request)
 AsyncWebServer server(80);
 void setup()
 {
+  initializeSerial();
+
   WiFiManager wifiManager;                   // Initialize WiFiManager
   wifiManager.autoConnect("Spark Analyzer"); // Auto-connect to WiFi. Change "ESP32_Device" to your desired AP name
-
-  Serial.begin(115200);
-  Serial.println("Connected to WiFi");
+  UART.println("Connected to WiFi");
 
   initializeUSB_PD();
   for (int i = 0; i < 30; i++)
   {
     processCurrentReading();
   }
-  initializeSerialAndPins();
+  initializePins();
 
   // Initialize SPIFFS
   if (!SPIFFS.begin())
   {
-    Serial.println("An Error has occurred while mounting SPIFFS");
+    UART.println("An Error has occurred while mounting SPIFFS");
     return;
   }
-  Serial.print("To access the web app, open your browser and navigate to -> ");
-  Serial.println(WiFi.localIP());
+  UART.print("To access the web app, open your browser and navigate to -> ");
+  UART.println(WiFi.localIP());
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/index.html"); });
@@ -209,13 +212,22 @@ void loop()
   processCurrentReading();
 }
 
-// Initialize Serial and Pin Modes
-void initializeSerialAndPins()
+// Initialize serial ports
+void initializeSerial()
 {
+  // initialize potentially *both* uarts
+  // 1. all the debugging from the esp code and from libraries go to the default port "Serial"
+  // 2. the debugging output from Spark Analyzer code can be redirected to the other port "Serial0" based on the definition of the UART macro
   Serial.begin(115200);
-  Serial.println("Initializing...");
+  UART.begin(115200);
+  UART.println("Initialized serial");
+}
 
+// Initialize pin modes
+void initializePins()
+{
   pinMode(usb_pd_int_pin, INPUT);
+
   pinMode(output_pin, OUTPUT);
   digitalWrite(output_pin, LOW);
 
