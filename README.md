@@ -177,6 +177,23 @@ If you want to modify the functionality of the Spark Analyzer or contribute to i
 * then perform the "Upload" task to flash the new firmware
 * once the flashing is complete, perform "Build Filesystem Image" and "Upload Filesystem Image" tasks
 
+### Debugging
+
+* in the Platform IO "Monitor" you can follow the debug output from the Spark Analyzer
+* if you have a serial UART adapter you can also
+  * connect to the GND, RX, TX pins to the Spark Analyzer and
+  * change the `UART` marcro in `main.cpp` to use `Serial0`
+  * then you can see some debug output via this second UART
+
+## Web development
+
+* The web app is served from the data/index.html file
+* You can follow the requests and responses exchanged between the web app and the firmware by opening your browser's "Web Development Tools".
+
+## Mobile app development
+
+See flutter/SparkAnalyzer/README.md
+
 ## License
 
 MIT License
