@@ -13,6 +13,7 @@
 
    Key components and libraries:
      - ESPAsyncWebServer: For handling HTTP requests and serving the web interface.
+     - EEPROM: To store and retrieve persistent settings such as the voltage level.
      - WiFiManager: To facilitate easy WiFi connectivity and configuration.
      - SPIFFS: For storing and accessing web interface files.
 
@@ -58,6 +59,7 @@
 #include <WiFiManager.h> // Include the WiFiManager library
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
+#include <Preferences.h>
 
 void initializeSerial();
 void initializePins();
@@ -94,6 +96,11 @@ int adcError = 0;
 
 PD_UFP_c PD_UFP;
 
+Preferences preferences;
+// Keys used for Preferences storage
+// N.B. keys may not be longer than 15 characters
+#define PREFERENCE_PPS_OUTPUT_VOLTAGE_V "ppsVoltageV"
+#define PREFERENCE_PPS_OUTPUT_CURRENT_A "ppsCurrentA"
 
 void handlePpsOutputCurrentLimitAChange(AsyncWebServerRequest *request) {
   if (request->hasParam("ppsOutputCurrentLimitA")) {
@@ -103,6 +110,7 @@ void handlePpsOutputCurrentLimitAChange(AsyncWebServerRequest *request) {
       UART.printf("PPS Current limit changed to %5.3f A\n", ppsOutputCurrentLimitA);
       bool retval = PD_UFP.set_PPS(PPS_V(ppsOutputVoltageV), PPS_A(ppsOutputCurrentLimitA));
       UART.printf("set_PPS(): %u\n", retval);
+      preferences.putFloat(PREFERENCE_PPS_OUTPUT_CURRENT_A, ppsOutputCurrentLimitA);
       request->send(200, "text/plain", "PPS Current limit updated");
     } else {
       request->send(200, "text/plain", "PPS Current limit unchanged");
@@ -124,6 +132,7 @@ void handlePpsOutputVoltageVChange(AsyncWebServerRequest *request)
       // esp_restart();                  // Restart ESP32-C3 to apply new voltage setting
       bool retval = PD_UFP.set_PPS(PPS_V(ppsOutputVoltageV), PPS_A(ppsOutputCurrentLimitA));
       UART.printf("set_PPS(): %u\n", retval);
+      preferences.putFloat(PREFERENCE_PPS_OUTPUT_VOLTAGE_V, ppsOutputVoltageV);
       request->send(200, "text/plain", "PPS Voltage updated");
     }
     else
@@ -173,6 +182,18 @@ AsyncWebServer server(80);
 void setup()
 {
   initializeSerial();
+
+  // Initialize Preferences with namespace "storage". False for read/write mode.
+  preferences.begin("storage", false);
+  UART.printf("preferences.getType(V): %u\n", preferences.getType(PREFERENCE_PPS_OUTPUT_VOLTAGE_V));
+  UART.printf("preferences.getType(A): %u\n", preferences.getType(PREFERENCE_PPS_OUTPUT_CURRENT_A));
+  // Retrieve stored values or use defaults if not set.
+  ppsOutputVoltageV =      preferences.getFloat(PREFERENCE_PPS_OUTPUT_VOLTAGE_V, DEFAULT_PPS_OUTPUT_VOLTAGE_V);
+  ppsOutputCurrentLimitA = preferences.getFloat(PREFERENCE_PPS_OUTPUT_CURRENT_A, DEFAULT_PPS_OUTPUT_CURRENT_LIMIT_A);
+
+  UART.printf("Mode: PPS\n");
+  UART.printf("Voltage: %5.3f V\n", ppsOutputVoltageV);
+  UART.printf("Current limit: %5.3f A\n", ppsOutputCurrentLimitA);
 
   WiFiManager wifiManager;                   // Initialize WiFiManager
   wifiManager.autoConnect("Spark Analyzer"); // Auto-connect to WiFi. Change "ESP32_Device" to your desired AP name
