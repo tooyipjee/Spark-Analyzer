@@ -102,20 +102,21 @@
 
 <body>
   <h2>Spark Analyzer Web App</h2>
+  <h3>USB-PD PPS - Programmable Power Supply mode</h3>
 
   <div id="chart-current" class="container"></div>
 
   <div class="input-section">
     <div>
-      <label for="voltage">Enter Voltage (5-16V):</label>
-      <input type="text" id="voltage" value="5">
-      <button onclick="setVoltage()">Set Voltage</button>
+      <label for="ppsOutputVoltageV">Voltage (5-16V):</label>
+      <input type="text" id="ppsOutputVoltageV" value="5">
+      <button onclick="setPpsOutputVoltageV()">Set Voltage</button>
     </div>
 
     <div>
-      <label for="current">Enter Current (up to 3A):</label>
-      <input type="text" id="current" value="0">
-      <button onclick="setCurrent()">Set Current</button>
+      <label for="ppsOutputCurrentLimitA">Current limit (up to 3A):</label>
+      <input type="text" id="ppsOutputCurrentLimitA" value="0">
+      <button onclick="setPpsOutputCurrentLimitA()">Set Current</button>
     </div>
   </div>
 
@@ -125,7 +126,7 @@
     <div class="output-switch">
       <label>Output: </label>
       <label class="switch">
-        <input type="checkbox" id="outputToggle" onchange="setOutput()">
+        <input type="checkbox" id="ppsOutputState" onchange="setPpsOutputState()">
         <span class="slider round"></span>
       </label>
     </div>
@@ -167,22 +168,28 @@
           }
         }
       };
-      xhttp.open("GET", "/current", true);
+      xhttp.open("GET", "/get_measured_current_mA", true);
       xhttp.send();
     }, 500); //Set sample rate
 
-    // Adjusted functions for text input
-    function setVoltage() {
+    function setPpsOutputVoltageV() {
       var xhttp = new XMLHttpRequest();
-      var voltage = document.getElementById("voltage").value;
-      xhttp.open("GET", "/set_voltage?voltage=" + voltage, true);
+      var voltage = document.getElementById("ppsOutputVoltageV").value;
+      xhttp.open("GET", "/set_pps_output_voltage_V?ppsOutputVoltageV=" + voltage, true);
       xhttp.send();
     }
 
-    function setCurrent() {
+    function setPpsOutputCurrentLimitA() {
       var xhttp = new XMLHttpRequest();
-      var current = document.getElementById("current").value;
-      xhttp.open("GET", "/set_current?current=" + current, true);
+      var currentLimitA = document.getElementById("ppsOutputCurrentLimitA").value;
+      xhttp.open("GET", "/set_pps_output_current_limit_A?ppsOutputCurrentLimitA=" + currentLimitA, true);
+      xhttp.send();
+    }
+
+    function setPpsOutputState() {
+      var xhttp = new XMLHttpRequest();
+      var outputState = document.getElementById("ppsOutputState").checked ? "1" : "0";
+      xhttp.open("GET", "/set_pps_output_state?ppsOutputState=" + outputState, true);
       xhttp.send();
     }
 
@@ -190,32 +197,26 @@
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("voltageDisplay").innerText = this.responseText + "V";
+          document.getElementById("voltageDisplay").innerText = this.responseText + " V";
         }
       };
-      xhttp.open("GET", "/get_voltage", true);
+      xhttp.open("GET", "/get_pps_output_voltage_V", true);
       xhttp.send();
     }
+    setInterval(updateVoltageDisplay, 1000); // Update voltage every second
 
     function updateCurrentDisplay() {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("currentDisplay").innerText = this.responseText + "A";
+          document.getElementById("currentDisplay").innerText = this.responseText + " A";
         }
       };
-      xhttp.open("GET", "/get_current", true);
+      xhttp.open("GET", "/get_pps_output_current_limit_A", true);
       xhttp.send();
     }
-
-    setInterval(updateVoltageDisplay, 1000); // Update voltage every second
     setInterval(updateCurrentDisplay, 1000); // Update current every second
-    function setOutput() {
-      var xhttp = new XMLHttpRequest();
-      var outputState = document.getElementById("outputToggle").checked ? "1" : "0";
-      xhttp.open("GET", "/set_output?output=" + outputState, true);
-      xhttp.send();
-    }
+
 
   </script>
 </body>

@@ -69,7 +69,9 @@ int readFilteredADC(int pin);
 
 // User-configurable constants
 #define FILTER_LENGTH 10
-#define INITIAL_OUTPUT_STATE 0 // 1 for On, 0 for Off
+#define DEFAULT_PPS_OUTPUT_STATE           false // true for On, false for Off
+#define DEFAULT_PPS_OUTPUT_VOLTAGE_V       5
+#define DEFAULT_PPS_OUTPUT_CURRENT_LIMIT_A 1
 // #define UART Serial // debug output via the USB C port
 #define UART Serial0 // debut output via the UART pin header
 const unsigned long updateInterval = 10000; // Set debug output rate
@@ -84,81 +86,84 @@ const int usb_pd_int_pin = 10;
 const int output_pin = 3;
 const int current_pin = 2;
 const int debug_led = 8;
-int current = 0; // in mA
-bool output = INITIAL_OUTPUT_STATE;
-float voltage = 5;
-float currentSet = 1;// in Ampere
+int measuredCurrentMA = 0;
+bool ppsOutputEnabled = DEFAULT_PPS_OUTPUT_STATE;
+float ppsOutputVoltageV = DEFAULT_PPS_OUTPUT_VOLTAGE_V;
+float ppsOutputCurrentLimitA = DEFAULT_PPS_OUTPUT_CURRENT_LIMIT_A;
 int adcError = 0;
 
 PD_UFP_c PD_UFP;
 
-void handleCurrentChange(AsyncWebServerRequest *request) {
-  if (request->hasParam("current")) {
-    float newCurrent = request->getParam("current")->value().toFloat();
-    if (newCurrent != currentSet) {
-      currentSet = newCurrent;
-      UART.print("Current changed to ");
-      UART.println(currentSet);
-      PD_UFP.set_PPS(PPS_V(voltage), PPS_A(currentSet));
-      request->send(200, "text/plain", "Current limit updated");
+
+void handlePpsOutputCurrentLimitAChange(AsyncWebServerRequest *request) {
+  if (request->hasParam("ppsOutputCurrentLimitA")) {
+    float newCurrentA = request->getParam("ppsOutputCurrentLimitA")->value().toFloat();
+    if (newCurrentA != ppsOutputCurrentLimitA) {
+      ppsOutputCurrentLimitA = newCurrentA;
+      UART.printf("PPS Current limit changed to %5.3f A\n", ppsOutputCurrentLimitA);
+      bool retval = PD_UFP.set_PPS(PPS_V(ppsOutputVoltageV), PPS_A(ppsOutputCurrentLimitA));
+      UART.printf("set_PPS(): %u\n", retval);
+      request->send(200, "text/plain", "PPS Current limit updated");
     } else {
-      request->send(200, "text/plain", "Current limit unchanged");
+      request->send(200, "text/plain", "PPS Current limit unchanged");
     }
   } else {
-    request->send(400, "text/plain", "Current parameter missing");
-  }
-}
-void handleVoltageChange(AsyncWebServerRequest *request)
-{
-  if (request->hasParam("voltage"))
-  {
-    float newVoltage = request->getParam("voltage")->value().toFloat();
-    if (newVoltage != voltage)
-    {
-     
-      voltage = newVoltage;
-      UART.print("Voltage changed to ");
-      UART.println(voltage);
-      // esp_restart();                  // Restart ESP32-C3 to apply new voltage setting
-      PD_UFP.set_PPS(PPS_V(voltage), PPS_A(currentSet));
-    }
-    else
-    {
-      request->send(200, "text/plain", "Voltage unchanged");
-    }
-    request->send(200, "text/plain", String(voltage));
-  }
-  else
-  {
-    request->send(400, "text/plain", "Voltage parameter missing");
+    request->send(400, "text/plain", "PPS Current parameter missing");
   }
 }
 
-void handleOutputControl(AsyncWebServerRequest *request)
+void handlePpsOutputVoltageVChange(AsyncWebServerRequest *request)
 {
-  if (request->hasParam("output"))
+  if (request->hasParam("ppsOutputVoltageV"))
   {
-    String outputState = request->getParam("output")->value();
-    if (outputState == "1")
+    float newVoltageV = request->getParam("ppsOutputVoltageV")->value().toFloat();
+    if (newVoltageV != ppsOutputVoltageV)
     {
-      output = true;
-      digitalWrite(output_pin, HIGH); // Turn output ON
-      request->send(200, "text/plain", "Output Enabled");
-    }
-    else if (outputState == "0")
-    {
-      output = false;
-      digitalWrite(output_pin, LOW); // Turn output OFF
-      request->send(200, "text/plain", "Output Disabled");
+      ppsOutputVoltageV = newVoltageV;
+      UART.printf("PPS Voltage changed to %5.3f V\n", ppsOutputVoltageV);
+      // esp_restart();                  // Restart ESP32-C3 to apply new voltage setting
+      bool retval = PD_UFP.set_PPS(PPS_V(ppsOutputVoltageV), PPS_A(ppsOutputCurrentLimitA));
+      UART.printf("set_PPS(): %u\n", retval);
+      request->send(200, "text/plain", "PPS Voltage updated");
     }
     else
     {
-      request->send(400, "text/plain", "Invalid output state");
+      UART.printf("PPS Voltage unchanged\n");
+      request->send(200, "text/plain", "PPS Voltage unchanged");
     }
   }
   else
   {
-    request->send(400, "text/plain", "Output parameter missing");
+    UART.printf("PPS Voltage parameter missing\n");
+    request->send(400, "text/plain", "PPS Voltage parameter missing");
+  }
+}
+
+void handlePpsOutputState(AsyncWebServerRequest *request)
+{
+  if (request->hasParam("ppsOutputState"))
+  {
+    String newOutputState = request->getParam("ppsOutputState")->value();
+    if (newOutputState == "1")
+    {
+      ppsOutputEnabled = true;
+      digitalWrite(output_pin, HIGH); // Turn output ON
+      request->send(200, "text/plain", "PPS Output enabled");
+    }
+    else if (newOutputState == "0")
+    {
+      ppsOutputEnabled = false;
+      digitalWrite(output_pin, LOW); // Turn output OFF
+      request->send(200, "text/plain", "PPS Output disabled");
+    }
+    else
+    {
+      request->send(400, "text/plain", "PPS Output parameter invalid");
+    }
+  }
+  else
+  {
+    request->send(400, "text/plain", "PPS Output parameter missing");
   }
 }
 
@@ -190,19 +195,13 @@ void setup()
   UART.println("To access the web app, open your browser and navigate to -> ");
   UART.printf("http://%s\n", WiFi.localIP().toString().c_str());
 
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(SPIFFS, "/index.html"); });
-  server.on("/current", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(200, "text/plain", String(current)); });
-  server.on("/get_voltage", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(200, "text/plain", String(voltage)); });
-  server.on("/get_current", HTTP_GET, [](AsyncWebServerRequest *request)
-            { request->send(200, "text/plain", String(currentSet)); });
-  server.on("/set_voltage", HTTP_GET, handleVoltageChange);
-
-  server.on("/set_output", HTTP_GET, handleOutputControl);
-  server.on("/set_current", HTTP_GET, handleCurrentChange);
-
+  server.on("/",                               HTTP_GET, [](AsyncWebServerRequest *request)  { request->send(SPIFFS, "/index.html"); });
+  server.on("/get_measured_current_mA",        HTTP_GET, [](AsyncWebServerRequest *request)  { request->send(200, "text/plain", String(measuredCurrentMA)); });
+  server.on("/get_pps_output_voltage_V",       HTTP_GET, [](AsyncWebServerRequest *request)  { request->send(200, "text/plain", String(ppsOutputVoltageV)); });
+  server.on("/get_pps_output_current_limit_A", HTTP_GET, [](AsyncWebServerRequest *request)  { request->send(200, "text/plain", String(ppsOutputCurrentLimitA)); });
+  server.on("/set_pps_output_state",           HTTP_GET, handlePpsOutputState);
+  server.on("/set_pps_output_voltage_V",       HTTP_GET, handlePpsOutputVoltageVChange);
+  server.on("/set_pps_output_current_limit_A", HTTP_GET, handlePpsOutputCurrentLimitAChange);
   server.begin();
 
   printStatus();
@@ -253,10 +252,10 @@ void printStatus()
 {
   UART.printf("[%10u] PPS mode, Voltage: %5.3f V, Current: %d mA (%5.3f A), Output: %s\n",
     millis(),
-    voltage,
-    current,
-    currentSet,
-    output ? "enabled" : "disabled");
+    ppsOutputVoltageV,
+    measuredCurrentMA,
+    ppsOutputCurrentLimitA,
+    ppsOutputEnabled ? "enabled" : "disabled");
 }
 
 // Update status at intervals
@@ -275,7 +274,7 @@ void updateStatus()
 // Process current reading and adjust LED status
 void processCurrentReading()
 {
-  if (output)
+  if (ppsOutputEnabled)
   {
     digitalWrite(output_pin, HIGH);
   }
@@ -284,7 +283,7 @@ void processCurrentReading()
     adcError = readFilteredADC(current_pin);
     digitalWrite(output_pin, LOW);
   }
-  current = 5.6865 * (readFilteredADC(current_pin) - adcError);
+  measuredCurrentMA = 5.6865 * (readFilteredADC(current_pin) - adcError);
 }
 
 // Reads ADC value with a moving average filter
