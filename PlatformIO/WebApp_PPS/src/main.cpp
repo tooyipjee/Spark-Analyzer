@@ -74,8 +74,8 @@ int readFilteredADC(int pin);
 #define DEFAULT_PPS_OUTPUT_STATE           false // true for On, false for Off
 #define DEFAULT_PPS_OUTPUT_VOLTAGE_V       5
 #define DEFAULT_PPS_OUTPUT_CURRENT_LIMIT_A 1
-// #define UART Serial // debug output via the USB C port
-#define UART Serial0 // debut output via the UART pin header
+#define UART Serial // debug output via the USB C port
+// #define UART Serial0 // debut output via the UART pin header
 const unsigned long updateInterval = 10000; // Set debug output rate
 
 // Filter variables
