@@ -306,7 +306,7 @@ void initializeUSB_PD()
 {
   Wire.begin(1, 0);
   Wire.setClock(400000);
-  PD_UFP.init_PPS(usb_pd_int_pin, PPS_V(5), PPS_A(2.0));
+  PD_UFP.init_PPS(usb_pd_int_pin, PPS_V(ppsOutputVoltageV), PPS_A(ppsOutputCurrentLimitA));
 }
 
 // Print system status
