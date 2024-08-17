@@ -148,21 +148,25 @@ void handlePpsOutputState(AsyncWebServerRequest *request)
     {
       ppsOutputEnabled = true;
       digitalWrite(output_pin, HIGH); // Turn output ON
+      UART.printf("PPS Output enabled\n");
       request->send(200, "text/plain", "PPS Output enabled");
     }
     else if (newOutputState == "0")
     {
       ppsOutputEnabled = false;
       digitalWrite(output_pin, LOW); // Turn output OFF
+      UART.printf("PPS Output disabled\n");
       request->send(200, "text/plain", "PPS Output disabled");
     }
     else
     {
+      UART.printf("PPS Output parameter invalid\n");
       request->send(400, "text/plain", "PPS Output parameter invalid");
     }
   }
   else
   {
+    UART.printf("PPS Output parameter missing\n");
     request->send(400, "text/plain", "PPS Output parameter missing");
   }
 }
