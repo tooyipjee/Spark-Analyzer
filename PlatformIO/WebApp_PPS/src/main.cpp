@@ -73,6 +73,7 @@ int readFilteredADC(int pin);
 // User-configurable constants
 #define USE_WIFI_MANAGER                   true // true for using WifiManger, false for using hardcoded wifi credentials - see FILL-ME-IN below
 #define FILTER_LENGTH                      10
+#define USE_PD_UFP_LOGGING                 false // true for PD_UFP debug logging, false for no debugging
 #define DEFAULT_PPS_OUTPUT_STATE           false // true for On, false for Off
 #define DEFAULT_PPS_OUTPUT_VOLTAGE_V       5
 #define DEFAULT_PPS_OUTPUT_CURRENT_LIMIT_A 1
@@ -101,7 +102,11 @@ float ppsOutputVoltageV = DEFAULT_PPS_OUTPUT_VOLTAGE_V;
 float ppsOutputCurrentLimitA = DEFAULT_PPS_OUTPUT_CURRENT_LIMIT_A;
 int adcError = 0;
 
+#if USE_PD_UFP_LOGGING
+PD_UFP_Log_c PD_UFP;
+#else
 PD_UFP_c PD_UFP;
+#endif
 
 Preferences preferences;
 // Keys used for Preferences storage
@@ -244,6 +249,9 @@ void loop()
 {
   updateStatus();
   processCurrentReading();
+#if USE_PD_UFP_LOGGING
+  PD_UFP.print_status(UART);
+#endif
 }
 
 // Initialize serial ports
