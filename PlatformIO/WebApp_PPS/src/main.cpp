@@ -63,6 +63,7 @@
 
 void initializeSerial();
 void initializePins();
+void initializeWifi();
 void initializeUSB_PD();
 void printStatus();
 void updateStatus();
@@ -70,6 +71,7 @@ void processCurrentReading();
 int readFilteredADC(int pin);
 
 // User-configurable constants
+#define USE_WIFI_MANAGER                   true // true for using WifiManger, false for using hardcoded wifi credentials - see FILL-ME-IN below
 #define FILTER_LENGTH                      10
 #define DEFAULT_PPS_OUTPUT_STATE           false // true for On, false for Off
 #define DEFAULT_PPS_OUTPUT_VOLTAGE_V       5
@@ -204,9 +206,7 @@ void setup()
   UART.printf("Voltage: %5.3f V\n", ppsOutputVoltageV);
   UART.printf("Current limit: %5.3f A\n", ppsOutputCurrentLimitA);
 
-  WiFiManager wifiManager;                   // Initialize WiFiManager
-  wifiManager.autoConnect("Spark Analyzer"); // Auto-connect to WiFi. Change "ESP32_Device" to your desired AP name
-  UART.printf("Connected to WiFi: %s\n", wifiManager.getWiFiSSID().c_str());
+  initializeWifi();
 
   initializeUSB_PD();
   for (int i = 0; i < 30; i++)
@@ -222,8 +222,6 @@ void setup()
     UART.println("An Error has occurred while mounting SPIFFS");
     return;
   }
-  UART.println("To access the web app, open your browser and navigate to -> ");
-  UART.printf("http://%s\n", WiFi.localIP().toString().c_str());
 
   server.on("/",                               HTTP_GET, [](AsyncWebServerRequest *request)  { request->send(SPIFFS, "/index.html"); });
   server.on("/get_measured_current_mA",        HTTP_GET, [](AsyncWebServerRequest *request)  { request->send(200, "text/plain", String(measuredCurrentMA)); });
@@ -277,6 +275,30 @@ void initializePins()
   digitalWrite(output_pin, LOW);
 
   pinMode(current_pin, INPUT);
+}
+
+void initializeWifi()
+{
+#if USE_WIFI_MANAGER
+  UART.println("Connecting to wifi with WiFiManager");
+  WiFiManager wifiManager(UART);
+  wifiManager.autoConnect("Spark Analyzer"); // Auto-connect to previously stored WiFi, or fall back to creating a "Spark Analyzer" access point for configuration
+#else
+  // Change ssid and pwd as needed
+  String ssid = "FILL-ME-IN";
+  String pwd = "FILL-ME-IN";
+  UART.printf("Connecting to wifi %s ", ssid.c_str());
+
+  WiFi.begin(ssid, pwd);
+  while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      UART.print(".");
+  }
+  UART.println();
+#endif
+
+  Serial.printf("Connected to wifi: %s (%d)\nTo access the web app, open your browser and navigate to -> http://%s\n", WiFi.SSID().c_str(), WiFi.RSSI(), WiFi.localIP().toString().c_str());
+  Serial0.printf("Connected to wfif: %s (%d)\nTo access the web app, open your browser and navigate to -> http://%s\n", WiFi.SSID().c_str(), WiFi.RSSI(), WiFi.localIP().toString().c_str());
 }
 
 // Initialize USB Power Delivery
