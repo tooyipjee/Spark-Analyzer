@@ -229,14 +229,42 @@ int PD_UFP_Log_c::status_log_readline(char * buffer, int maxlen)
     return n;
 }
 
+
+// TX buffer sizes for serial ports
+// Todo: It would be good to reconfirm these numbers.
+// The values are my best guesses for the TX buffer sizes, based on:
+// - reading HWCDC.cpp code
+// - playing with verbose logging of availableForWrite()
+// - and empirically testing what's the largest number that seems to work.
+# define SERIAL_TX_BUFFER_SIZE_HWCDC        256 // see framework-arduinoespressif32/cores/esp32/HWCDC.cpp:312 HWCDC::begin()
+# define SERIAL_BUFFER_SIZE_HARDWARE_SERIAL 128
+
+void PD_UFP_Log_c::print_status(HWCDC & serial)
+{
+    int available = serial.availableForWrite();
+    // Wait for enough tx buffer in serial port to avoid blocking
+    if (serial && available >= SERIAL_TX_BUFFER_SIZE_HWCDC - 1) {
+        char buf[SERIAL_TX_BUFFER_SIZE_HWCDC];
+        if (status_log_readline(buf, sizeof(buf) - 1)) {
+            serial.print(buf);
+        }
+    // } else {
+    //     serial.printf("HWCDC:((%d < %d)) ", available, SERIAL_TX_BUFFER_SIZE_HWCDC-1);
+    }
+}
+
+
 void PD_UFP_Log_c::print_status(HardwareSerial & serial)
 {
-    // // Wait for enough tx buffer in serial port to avoid blocking
-    // if (serial && serial.availableForWrite() >= SERIAL_TX_BUFFER_SIZE - 1) {
-    //     char buf[SERIAL_TX_BUFFER_SIZE];
-    //     if (status_log_readline(buf, sizeof(buf) - 1)) {
-    //         serial.print(buf);
-    //     }
-    // }
+    int available = serial.availableForWrite();
+    // Wait for enough tx buffer in serial port to avoid blocking
+    if (serial && available >= SERIAL_BUFFER_SIZE_HARDWARE_SERIAL - 1) {
+        char buf[SERIAL_BUFFER_SIZE_HARDWARE_SERIAL];
+        if (status_log_readline(buf, sizeof(buf) - 1)) {
+            serial.print(buf);
+        }
+    // } else {
+    //     serial.printf("HWS((%d < %d)) ", available, SERIAL_BUFFER_SIZE_HARDWARE_SERIAL-1);
+    }
 }
 
