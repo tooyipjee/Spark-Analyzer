@@ -74,14 +74,19 @@ int readFilteredADC(int pin);
 #define DEFAULT_PPS_OUTPUT_STATE           false // true for On, false for Off
 #define DEFAULT_PPS_OUTPUT_VOLTAGE_V       5
 #define DEFAULT_PPS_OUTPUT_CURRENT_LIMIT_A 1
-#define UART                               Serial // debug output via the USB C port
-// #define UART                            Serial0 // debut output via the UART pin header
+#define DEBUG_VIA_DEFAULT_UART             true // true for default uart (USB), false for secondary uart (GPIO pins)
 const unsigned long updateIntervalMs =     10000; // Set debug output rate
 
 // Filter variables
 int adcSamples[FILTER_LENGTH];
 int adcIndex = 0;
 int adcSum = 0;
+
+#if DEBUG_VIA_DEFAULT_UART
+#define UART Serial
+#else
+#define UART Serial0
+#endif
 
 unsigned long lastUpdateTime = 0;
 const int usb_pd_int_pin = 10;
@@ -233,7 +238,8 @@ void setup()
   // Debug pin lights up when ready.
   pinMode(debug_led, OUTPUT);
   digitalWrite(debug_led, HIGH);
-  UART.println("Setup complete");
+  Serial.println("Setup complete");
+  Serial0.println("Setup complete");
 }
 
 void loop()
@@ -245,12 +251,21 @@ void loop()
 // Initialize serial ports
 void initializeSerial()
 {
-  // initialize potentially *both* uarts
-  // 1. all the debugging from the esp code and from libraries go to the default port "Serial"
-  // 2. the debugging output from Spark Analyzer code can be redirected to the other port "Serial0" based on the definition of the UART macro
   Serial.begin(115200);
-  UART.begin(115200);
-  UART.println("Initialized serial");
+  Serial.println("Initializing default serial port (USB connector)");
+
+  Serial0.begin(115200);
+  Serial0.println("Initializing secondary serial port (GPIO pins)");
+
+  Serial.println("Debug messages from most libraries will be printed on this serial port");
+
+#if DEBUG_VIA_DEFAULT_UART == true
+  Serial.println("Debug messages from Spark Analyzer code will be printed on this serial port");
+  Serial0.println("Debug messages from Spark Analyzer code will be printed on the other serial port");
+#else
+  Serial0.println("Debug messages from Spark Analyzer code will be printed on this serial port");
+  Serial.println("Debug messages from Spark Analyzer code will be printed on the other serial port");
+#endif
 }
 
 // Initialize pin modes
