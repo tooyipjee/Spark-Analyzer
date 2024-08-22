@@ -104,6 +104,7 @@ int adcError = 0;
 
 #if USE_PD_UFP_LOGGING
 PD_UFP_Log_c PD_UFP;
+// PD_UFP_Log_c PD_UFP(PD_LOG_LEVEL_VERBOSE);
 #else
 PD_UFP_c PD_UFP;
 #endif
