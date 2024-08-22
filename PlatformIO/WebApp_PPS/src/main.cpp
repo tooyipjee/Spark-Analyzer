@@ -219,16 +219,16 @@ void setup()
   {
     processCurrentReading();
   }
+
   initializePins();
-  printStatus();
 
   // Initialize SPIFFS
+  UART.println("Initialize SPIFFS");
   if (!SPIFFS.begin())
   {
     UART.println("An Error has occurred while mounting SPIFFS");
     return;
   }
-
   server.on("/",                               HTTP_GET, [](AsyncWebServerRequest *request)  { request->send(SPIFFS, "/index.html"); });
   server.on("/get_measured_current_mA",        HTTP_GET, [](AsyncWebServerRequest *request)  { request->send(200, "text/plain", String(measuredCurrentMA)); });
   server.on("/get_pps_output_voltage_V",       HTTP_GET, [](AsyncWebServerRequest *request)  { request->send(200, "text/plain", String(ppsOutputVoltageV)); });
@@ -278,6 +278,7 @@ void initializeSerial()
 // Initialize pin modes
 void initializePins()
 {
+  UART.println("Initialize pins");
   pinMode(usb_pd_int_pin, INPUT);
 
   pinMode(output_pin, OUTPUT);
@@ -288,6 +289,7 @@ void initializePins()
 
 void initializeWifi()
 {
+  UART.println("Initializing wifi");
 #if USE_WIFI_MANAGER
   UART.println("Connecting to wifi with WiFiManager");
   WiFiManager wifiManager(UART);
@@ -313,6 +315,7 @@ void initializeWifi()
 // Initialize USB Power Delivery
 void initializeUSB_PD()
 {
+  UART.printf("Initialize USB PD/PPS (%5.3fV,%5.3fA)\n", ppsOutputVoltageV, ppsOutputCurrentLimitA);
   Wire.begin(1, 0);
   Wire.setClock(400000);
   PD_UFP.init_PPS(usb_pd_int_pin, PPS_V(ppsOutputVoltageV), PPS_A(ppsOutputCurrentLimitA));
