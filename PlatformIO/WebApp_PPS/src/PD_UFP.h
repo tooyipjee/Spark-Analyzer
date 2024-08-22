@@ -121,7 +121,7 @@ class PD_UFP_Log_c : public PD_UFP_c
     public:
         PD_UFP_Log_c(pd_log_level_t log_level = PD_LOG_LEVEL_INFO);
         // Task
-        //void print_status(Serial_ & serial);
+        void print_status(HWCDC & serial);
         void print_status(HardwareSerial & serial);
         // Get
         int status_log_readline(char * buffer, int maxlen);
