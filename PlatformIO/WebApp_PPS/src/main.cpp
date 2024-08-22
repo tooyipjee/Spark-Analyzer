@@ -296,8 +296,8 @@ void initializeWifi()
   wifiManager.autoConnect("Spark Analyzer"); // Auto-connect to previously stored WiFi, or fall back to creating a "Spark Analyzer" access point for configuration
 #else
   // Change ssid and pwd as needed
-  String ssid = "FILL-ME-IN";
-  String pwd = "FILL-ME-IN";
+  // String ssid = "FILL-ME-IN";
+  // String pwd = "FILL-ME-IN";
   UART.printf("Connecting to wifi %s ", ssid.c_str());
 
   WiFi.begin(ssid, pwd);

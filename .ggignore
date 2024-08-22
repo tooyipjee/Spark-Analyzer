@@ -1,5 +1,0 @@
-// Seems that there is this GitGuardian service in GitHub that flags code that might leak secrets
-// and "flag" means making PR's fail validation
-// Thanks, but no thanks. Make GG stfu about these demo credentials
-secret_ignore_string = String ssid = "FILL-ME-IN";
-secret_ignore_string = String pwd = "FILL-ME-IN";
