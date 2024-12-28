@@ -47,7 +47,7 @@ uint8_t RemoteXY_CONF[] =   // 112 bytes
 struct {
 
     // input variables
-  float voltage_set;
+  float voltage_set = 3.5;
   float current_set;
   uint8_t output_enable; // =1 if switch ON and =0 if OFF
 
@@ -87,7 +87,7 @@ PD_UFP_c PD_UFP;
 
 void setup() {
   Wire.begin(1,0);
-  PD_UFP.init_PPS(FUSB302_INT_PIN, PPS_V(12.0), PPS_A(1.0));
+  PD_UFP.init_PPS(FUSB302_INT_PIN, PPS_V(3.5), PPS_A(1.0));
   
   Serial.begin(9600);
   pinMode(OUTPUT_PIN,OUTPUT);

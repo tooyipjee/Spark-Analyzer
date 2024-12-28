@@ -15,8 +15,8 @@ const int output_pin = 3;       // Example GPIO pin, adjust as needed
 const int current_pin = 2;      // ADC pin, adjust as needed
 // const int stepper_dir_pin = 21; // TX pin (GPIO21) for direction control
 // const int stepper_step_pin = 20; // RX pin (GPIO20) for step control
-const int stepper_dir_pin = 9; // TX pin (GPIO21) for direction control
-const int stepper_step_pin = 8; // RX pin (GPIO20) for step control
+const int stepper_dir_pin = 20; // TX pin (GPIO21) for direction control
+const int stepper_step_pin = 21; // RX pin (GPIO20) for step control
 
 // Stepper motor control variables
 const int stepsPerRevolution = 200;  // Adjust this based on your stepper motor
