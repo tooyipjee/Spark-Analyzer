@@ -45,8 +45,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include "tcpm_driver.h"
-#include "usb_pd.h"
+#include "PD_UFP.h"
 
 // User-configurable constants
 #define FILTER_LENGTH 10
@@ -68,6 +67,9 @@ int current = 0;
 bool output = INITIAL_OUTPUT_STATE;
 int voltage = VOLTAGE;
 int adcError = 0;
+
+PD_UFP_c PD_UFP;
+
 // Prototypes
 // Function Prototypes
 void initializeSerialAndPins();
@@ -76,11 +78,6 @@ void updateStatus();
 void processCurrentReading();
 void checkCurrentLimit();
 int readFilteredADC(int pin);
-
-// USB-C Specific - TCPM start
-const struct tcpc_config_t tcpc_config[CONFIG_USB_PD_PORT_COUNT] = {
-  {0, fusb302_I2C_SLAVE_ADDR, &fusb302_tcpm_drv},
-};
 
 void setup() {
   output = 0;
@@ -120,11 +117,18 @@ void initializeUSB_PD() {
   Wire.begin(1, 0);
   Wire.setClock(400000);
   delay(500);
-  tcpm_init(0);
-  delay(50);
-  pd_init(0);
-  delay(50);
-  pd_set_max_voltage(voltage*1000); // Set default 5V
+  
+  if (voltage == 5) {
+    PD_UFP.init(usb_pd_int_pin, PD_POWER_OPTION_MAX_5V);
+  } else if (voltage == 9) {
+    PD_UFP.init(usb_pd_int_pin, PD_POWER_OPTION_MAX_9V);
+  } else if (voltage == 12) {
+    PD_UFP.init(usb_pd_int_pin, PD_POWER_OPTION_MAX_12V);
+  } else if (voltage == 15) {
+    PD_UFP.init(usb_pd_int_pin, PD_POWER_OPTION_MAX_15V);
+  } else if (voltage == 20) {
+    PD_UFP.init(usb_pd_int_pin, PD_POWER_OPTION_MAX_20V);
+  }
 }
 
 // Update status at intervals
@@ -139,7 +143,7 @@ void updateStatus() {
     Serial.println(current);
 
   }
-  pd_run_state_machine(0);
+  PD_UFP.run();
 }
 
 // Process current reading and adjust LED status
@@ -169,15 +173,3 @@ int readFilteredADC(int pin) {
     adcIndex = (adcIndex + 1) % FILTER_LENGTH;
     return adcSum / FILTER_LENGTH;
 }
-
-// // // Additional functions for USB PD or other functionalities can be added here
-// #include <Arduino.h>
-
-// void setup() {
-//   Serial.begin(115200); // Initialize serial communication at 115200 baud rate
-// }
-
-// void loop() {
-//   Serial.println("Hello world!"); // Print "Hello world!" to the Serial Monitor
-//   delay(1000); // Wait for a second
-// }
